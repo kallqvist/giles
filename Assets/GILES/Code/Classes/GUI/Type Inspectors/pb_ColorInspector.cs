@@ -29,17 +29,10 @@ namespace GILES.Interface
 		{
 			title.text = GetName().SplitCamelCase();
 
-#if UNITY_5_2
-			input_r.onValueChange.AddListener( OnValueChange_R );
-			input_g.onValueChange.AddListener( OnValueChange_G );
-			input_b.onValueChange.AddListener( OnValueChange_B );
-			input_a.onValueChange.AddListener( OnValueChange_A );
-#else
 			input_r.onValueChanged.AddListener( OnValueChange_R );
 			input_g.onValueChanged.AddListener( OnValueChange_G );
 			input_b.onValueChanged.AddListener( OnValueChange_B );
 			input_a.onValueChanged.AddListener( OnValueChange_A );
-#endif
 		}
 
 		protected override void OnUpdateGUI()

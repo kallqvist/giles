@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-#if !UNITY_5_2
 using UnityEngine.SceneManagement;
-#endif
 
 namespace GILES
 {
@@ -16,11 +14,7 @@ namespace GILES
 
 		public void Load()
 		{
-#if UNITY_5_2
-			Application.LoadLevel(levelName);
-#else
 			SceneManager.LoadScene(levelName);
-#endif
 		}
 	}
 }

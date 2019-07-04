@@ -1,6 +1,4 @@
-﻿#if !UNITY_5_2
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using NUnit.Framework;
 

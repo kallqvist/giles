@@ -78,12 +78,9 @@ namespace GILES
 			if(!loadedAssetBundles.TryGetValue(full_path, out bundle))
 			{
 				_RegisterAssetBundle(full_path);
-
-#if UNITY_5_2 || UNITY_5_1
-				bundle = AssetBundle.CreateFromFile(full_path);
-#else
+                
 				bundle = AssetBundle.LoadFromFile(full_path);
-#endif
+
 				loadedAssetBundles.Add(full_path, bundle);
 			}
 

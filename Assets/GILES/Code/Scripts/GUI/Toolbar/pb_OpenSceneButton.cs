@@ -17,11 +17,7 @@ namespace GILES
 
 		public void OpenScene()
 		{
-#if UNITY_5_2
-			Application.LoadLevel(scene);
-#else
 			SceneManager.LoadScene(scene);
-#endif
 		}
 	}
 }

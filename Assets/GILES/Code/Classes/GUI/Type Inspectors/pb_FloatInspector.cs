@@ -23,11 +23,8 @@ namespace GILES.Interface
 		public override void InitializeGUI()
 		{
 			title.text = GetName().SplitCamelCase();
-#if UNITY_5_2
-			input.onValueChange.AddListener( OnValueChange );
-#else
+
 			input.onValueChanged.AddListener( OnValueChange );
-#endif
 		}
 
 
