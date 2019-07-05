@@ -1,11 +1,6 @@
 ﻿using System;
-using UnityEngine;
-using System.Linq;
-using System.Reflection;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GILES;
 
 namespace GILES.Serialization
 {
@@ -14,12 +9,15 @@ namespace GILES.Serialization
 	 * serialization behavior for your MonoBehaviour, implement the pb_ISerializableComponent interface.
 	 */
 	[System.Serializable]
-	public class pb_SerializableObject<T> : pb_ISerializable
+#pragma warning disable IDE1006
+    public class pb_SerializableObject<T> : pb_ISerializable
 	{
-		/// A reference to the component being serialized.  Will be null on deserialization.
-		protected T target;
+#pragma warning restore IDE1006
+
+        /// A reference to the component being serialized.  Will be null on deserialization.
+        protected T target;
 		
-		public Type type { get; set; }
+		public Type Type { get; set; }
 
 		/// A key-value store of all serializable properties and fields on this object.  Populated on serialization & deserialization.
 		protected Dictionary<string, object> reflectedProperties;
@@ -40,7 +38,7 @@ namespace GILES.Serialization
 		{
 			if(obj.target == null)
 			{
-				T val = default(T);
+				T val = default;
 				obj.ApplyProperties(val);
 				return val;
 			}
@@ -56,7 +54,7 @@ namespace GILES.Serialization
 		public pb_SerializableObject(SerializationInfo info, StreamingContext context)
 		{
 			string typeName 		= (string) info.GetValue("typeName", typeof(string));
-			type 					= Type.GetType(typeName);
+			Type 					= Type.GetType(typeName);
 			reflectedProperties 	= (Dictionary<string, object>) info.GetValue("reflectedProperties", typeof(Dictionary<string, object>));
 		}
 
@@ -74,26 +72,22 @@ namespace GILES.Serialization
 
 		public virtual void ApplyProperties(object obj)
 		{
-			pb_ISerializableComponent ser = obj as pb_ISerializableComponent;
-
-			if(ser != null)
-			{
-				ser.ApplyDictionaryValues(reflectedProperties);
-			}
-			else
-			{
-				pb_Reflection.ApplyProperties(obj, reflectedProperties);
-			}
-		}
+            if (obj is pb_ISerializableComponent ser)
+            {
+                ser.ApplyDictionaryValues(reflectedProperties);
+            }
+            else
+            {
+                pb_Reflection.ApplyProperties(obj, reflectedProperties);
+            }
+        }
 
 		public virtual Dictionary<string, object> PopulateSerializableDictionary()
 		{
-			pb_ISerializableComponent ser = target as pb_ISerializableComponent;
-
-			if(ser != null)
-				return ser.PopulateSerializableDictionary();
-			else
-				return pb_Reflection.ReflectProperties(target);
-		}
+            if (target is pb_ISerializableComponent ser)
+                return ser.PopulateSerializableDictionary();
+            else
+                return pb_Reflection.ReflectProperties(target);
+        }
 	}
 }

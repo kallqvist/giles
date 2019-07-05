@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Linq;
-using GILES;
 
 namespace GILES.Serialization
 {
@@ -14,9 +13,12 @@ namespace GILES.Serialization
 	 * would be messy when rebuilding.
 	 */
 	[System.Serializable()]
-	public class pb_SceneNode : ISerializable
+#pragma warning disable IDE1006
+    public class pb_SceneNode : ISerializable
 	{
-		public string name;
+#pragma warning restore IDE1006
+
+        public string name;
 		public pb_Transform transform;
 		public List<pb_SceneNode> children;
 
@@ -38,7 +40,7 @@ namespace GILES.Serialization
 			children 	= (List<pb_SceneNode>) info.GetValue("children", typeof(List<pb_SceneNode>));
 			metadata 	= (pb_MetaData) info.GetValue("metadata", typeof(pb_MetaData));
 
-			if( metadata.assetType == AssetType.Instance)
+			if( metadata.AssetType == AssetType.Instance)
 				components 	= (List<pb_ISerializable>) info.GetValue("components", typeof(List<pb_ISerializable>));
 		}
 
@@ -52,7 +54,7 @@ namespace GILES.Serialization
 			info.AddValue("children", children, typeof(List<pb_SceneNode>));
 			info.AddValue("metadata", metadata, typeof(pb_MetaData));
 
-			if( metadata == null || metadata.assetType == AssetType.Instance )
+			if( metadata == null || metadata.AssetType == AssetType.Instance )
 				info.AddValue("components", components, typeof(List<pb_SerializableObject<Component>>));	
 		}
 
@@ -72,7 +74,7 @@ namespace GILES.Serialization
 
 			metadata = metadata_component.metadata;
 
-			if( metadata.assetType == AssetType.Instance )
+			if( metadata.AssetType == AssetType.Instance )
 			{
 				foreach(Component c in root.GetComponents<Component>())
 				{
@@ -107,7 +109,7 @@ namespace GILES.Serialization
 		{
 			GameObject go;
 
-			if(metadata.assetType == AssetType.Instance)
+			if(metadata.AssetType == AssetType.Instance)
 			{
 				go = new GameObject();
 

@@ -1,20 +1,21 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Used by pb_TypeInspector to find the appropriate inspector subclasses to draw
 	 * the inspector GUI.
 	 */
-	public static class pb_InspectorResolver
+#pragma warning disable IDE1006
+    public static class pb_InspectorResolver
 	{
-		public const string TYPE_INSPECTOR_PATH = "Required/GUI/TypeInspector";
+#pragma warning disable IDE1006
+
+        public const string TYPE_INSPECTOR_PATH = "Required/GUI/TypeInspector";
 
 		/// Link types to their respective best available pb_TypeInspector.  This can include types that do not have an exact
 		/// inspector match, unlike inspectorLookup which only contains 1:1 matches.
@@ -52,12 +53,10 @@ namespace GILES.Interface
 			if( inspectorLookup == null )
 				InitializeLookup();
 
-			GameObject inspectorObject;
+            if (inspectorPool.TryGetValue(type, out GameObject inspectorObject))
+                return GameObject.Instantiate(inspectorObject).GetComponent<pb_TypeInspector>();
 
-			if(inspectorPool.TryGetValue(type, out inspectorObject))
-				return GameObject.Instantiate(inspectorObject).GetComponent<pb_TypeInspector>();
-
-			List<GameObject> inspectors = new List<GameObject>();
+            List<GameObject> inspectors = new List<GameObject>();
 
 			foreach(KeyValuePair<IEnumerable<pb_TypeInspectorAttribute>, GameObject> kvp in inspectorLookup)
 			{
@@ -90,9 +89,11 @@ EXACT_TYPE_INSPECTOR_FOUND:
 			}
 			else
 			{
-				GameObject go = new GameObject();
-				go.name = "Generic Object Inspector: " + type;
-				pb_TypeInspector typeInspector = go.AddComponent<pb_ObjectInspector>();
+                GameObject go = new GameObject
+                {
+                    name = "Generic Object Inspector: " + type
+                };
+                pb_TypeInspector typeInspector = go.AddComponent<pb_ObjectInspector>();
 				typeInspector.SetDeclaringType(type);
 				return typeInspector;
 			}

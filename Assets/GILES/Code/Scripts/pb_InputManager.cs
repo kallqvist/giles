@@ -1,24 +1,24 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using GILES.Interface;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Responsible for handling mouse and keyboard input and feeding events to scene editor modes.
 	 * When extending the runtime editor, you will register pb_SceneEditor objects with this class,
 	 * which handles disabling the current editor and setting up the new.
 	 */
-	public class pb_InputManager : pb_MonoBehaviourSingleton<pb_InputManager> 
+#pragma warning disable IDE1006
+    public class pb_InputManager : pb_MonoBehaviourSingleton<pb_InputManager> 
 	{
-		// The editor mode that is used on initialization.  To set a new mode or swap between modes,
-		// use pb_InputManager.SetCurrentMode().  See pb_SceneEditor for information about implementing
-		// custom editor modes.
-		public pb_SceneEditor currentEditor;
+#pragma warning restore IDE1006
+        // The editor mode that is used on initialization.  To set a new mode or swap between modes,
+        // use pb_InputManager.SetCurrentMode().  See pb_SceneEditor for information about implementing
+        // custom editor modes.
+        public pb_SceneEditor currentEditor;
 
 		/// Reference to the current EventSystem.
 		private EventSystem eventSystem;
@@ -33,10 +33,10 @@ namespace GILES
 		 */
 		public static void AddMouseInUseDelegate(MouseInUse del)
 		{
-			if(instance.mouseUsedDelegate == null)
-				instance.mouseUsedDelegate = del;
+			if(Instance.mouseUsedDelegate == null)
+				Instance.mouseUsedDelegate = del;
 			else
-				instance.mouseUsedDelegate += del;
+				Instance.mouseUsedDelegate += del;
 		}
 
 		/**
@@ -44,7 +44,7 @@ namespace GILES
 		 */
 		public static void RemoveMouseInUseDelegate(MouseInUse del)
 		{
-			instance.mouseUsedDelegate -= del;
+			Instance.mouseUsedDelegate -= del;
 		}
 
 		/**
@@ -53,10 +53,10 @@ namespace GILES
 		 */
 		public static void AddKeyInUseDelegate(KeyInUse del)
 		{
-			if(instance.keyUsedDelegate == null)
-				instance.keyUsedDelegate = del;
+			if(Instance.keyUsedDelegate == null)
+				Instance.keyUsedDelegate = del;
 			else
-				instance.keyUsedDelegate += del;
+				Instance.keyUsedDelegate += del;
 		}
 
 		/**
@@ -64,7 +64,7 @@ namespace GILES
 		 */
 		public static void RemoveKeyInUseDelegate(KeyInUse del)
 		{
-			instance.keyUsedDelegate -= del;
+			Instance.keyUsedDelegate -= del;
 		}
 
 		/**
@@ -100,10 +100,10 @@ namespace GILES
 		 */
 		public static pb_SceneEditor GetCurrentEditor()
 		{
-			if(instance._editor == null)
+			if(Instance._editor == null)
 				Debug.Log("NULL! e r est");
 
-			return instance._editor;
+			return Instance._editor;
 		}
 
 		/**
@@ -155,8 +155,8 @@ namespace GILES
 		private void OnLevelReset()
 		{
 			// reset the undo queue
-			if( Undo.nullableInstance != null )
-				Destroy(Undo.nullableInstance);
+			if( Undo.NullableInstance != null )
+				Destroy(Undo.NullableInstance);
 		}
 
 		/**
@@ -164,7 +164,7 @@ namespace GILES
 		 */
 		public static bool IsMouseInUse()
 		{
-			bool inuse = instance.mouseUsedDelegate != null && instance.mouseUsedDelegate.GetInvocationList().Any(x => ((MouseInUse)x)(Input.mousePosition));
+			bool inuse = Instance.mouseUsedDelegate != null && Instance.mouseUsedDelegate.GetInvocationList().Any(x => ((MouseInUse)x)(Input.mousePosition));
 			return inuse;
 		}
 
@@ -173,7 +173,7 @@ namespace GILES
 		 */
 		public static bool IsKeyInUse()
 		{
-			return instance.keyUsedDelegate != null && instance.keyUsedDelegate.GetInvocationList().Any(x => ((KeyInUse)x)());
+			return Instance.keyUsedDelegate != null && Instance.keyUsedDelegate.GetInvocationList().Any(x => ((KeyInUse)x)());
 		}
 
 		/**
@@ -221,7 +221,7 @@ namespace GILES
 
 			if( Input.GetKey(KeyCode.Backspace))
 			{
-				Undo.RegisterStates( new IUndo[] { new UndoDelete(pb_Selection.gameObjects), new UndoSelection() }, "Delete Selection" );
+				Undo.RegisterStates( new IUndo[] { new UndoDelete(pb_Selection.GameObjects), new UndoSelection() }, "Delete Selection" );
 
 				pb_Selection.Clear();
 			}

@@ -2,17 +2,20 @@ using UnityEngine;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Static class with commonly used geometry functions.
 	 */
-	public static class pb_Geometry
+#pragma warning disable IDE1006
+    public static class pb_Geometry
 	{
-		/**
+#pragma warning restore IDE1006
+
+        /**
 		 * Returns true if a raycast intersects a triangle.
 		 * http://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
 		 * http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
 		 */
-		public static bool RayIntersectsTriangle(
+        public static bool RayIntersectsTriangle(
 			Ray InRay, 
 			Vector3 InTriangleA,
 			Vector3 InTriangleB,

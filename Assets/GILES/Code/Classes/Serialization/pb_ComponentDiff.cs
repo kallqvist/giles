@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace GILES.Serialization
 {
-	/**
+    /**
 	 * Stores a dictionary of modified values and their corresponding component.  This is 
 	 * used to serialize changes to prefabs without writing the entirity of their serialized
 	 * data to disk.
 	 */
-	public class pb_ComponentDiff : ISerializable
+#pragma warning disable IDE1006
+    public class pb_ComponentDiff : ISerializable
 	{
-		public Dictionary<Component, Dictionary<string, object>> modifiedValues;
+#pragma warning restore IDE1006
+
+        public Dictionary<Component, Dictionary<string, object>> modifiedValues;
 
 		public pb_ComponentDiff()
 		{
@@ -62,20 +64,18 @@ namespace GILES.Serialization
 
 			pb_ComponentDiff diff = md_component.metadata.componentDiff;
 
-			Dictionary<string, object> v;
-
-			if(diff.modifiedValues.TryGetValue(component, out v))
-			{
-				if(v.ContainsKey(name))
-					v[name] = value;
-				else
-					v.Add(name, value);
-			}
-			else
-			{
-				diff.modifiedValues.Add(component, new Dictionary<string, object>() { {name, value} } );
-			}
-		}
+            if (diff.modifiedValues.TryGetValue(component, out Dictionary<string, object> v))
+            {
+                if (v.ContainsKey(name))
+                    v[name] = value;
+                else
+                    v.Add(name, value);
+            }
+            else
+            {
+                diff.modifiedValues.Add(component, new Dictionary<string, object>() { { name, value } });
+            }
+        }
 
 
 		/**

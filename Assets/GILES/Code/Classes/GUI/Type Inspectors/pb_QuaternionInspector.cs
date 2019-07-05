@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 
 namespace GILES.Interface
 {
@@ -8,9 +6,12 @@ namespace GILES.Interface
 	 * Field editor for Quaternion types.
 	 */
 	[pb_TypeInspector(typeof(Quaternion))]
-	public class pb_QuaternionInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_QuaternionInspector : pb_TypeInspector
 	{
-		Quaternion quaternion;
+#pragma warning restore IDE1006
+
+        Quaternion quaternion;
 
 		public UnityEngine.UI.Text title;
 
@@ -46,46 +47,38 @@ namespace GILES.Interface
 
 		public void OnValueChange_X(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				quaternion.x = v;
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                quaternion.x = v;
+                OnGUIChanged();
+            }
+        }
 
 		public void OnValueChange_Y(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				quaternion.y = v;
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                quaternion.y = v;
+                OnGUIChanged();
+            }
+        }
 
 		public void OnValueChange_Z(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				quaternion.z = v;
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                quaternion.z = v;
+                OnGUIChanged();
+            }
+        }
 
 		public void OnValueChange_W(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				quaternion.w = v;
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                quaternion.w = v;
+                OnGUIChanged();
+            }
+        }
 	}
 }

@@ -1,16 +1,14 @@
-using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Linq;
-using System.Reflection;
 using System;
-using System.Linq;
 
 namespace GILES.Serialization
 {
-	public class pb_ObjectConverter : JsonConverter
+#pragma warning disable IDE1006
+    public class pb_ObjectConverter : JsonConverter
 	{
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+#pragma warning restore IDE1006
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 	        throw new NotImplementedException("Cannot write objects!");
 		}

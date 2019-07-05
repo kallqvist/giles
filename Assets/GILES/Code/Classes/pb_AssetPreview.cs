@@ -2,22 +2,27 @@ using UnityEngine;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Generates preview images of assets asynchronously.
 	 */
-	public static class pb_AssetPreview
+#pragma warning disable IDE1006
+    public static class pb_AssetPreview
 	{
-		private static Camera _previewCamera = null;
+#pragma warning restore IDE1006
 
-		private static Camera previewCamera
+        private static Camera _previewCamera = null;
+
+		private static Camera PreviewCamera
 		{
 			get
 			{
 				if(_previewCamera == null)
 				{
-					GameObject go = new GameObject();
-					go.name = "Asset Preview Camera";
-					go.transform.localRotation = Quaternion.Euler(30f, -30f, 0f);
+                    GameObject go = new GameObject
+                    {
+                        name = "Asset Preview Camera"
+                    };
+                    go.transform.localRotation = Quaternion.Euler(30f, -30f, 0f);
 					_previewCamera = go.AddComponent<Camera>();
 					go.SetActive(false);
 				}
@@ -31,7 +36,7 @@ namespace GILES
 			Texture2D tex = null;
 			GameObject go = obj as GameObject;
 
-			if(PrepareCamera(previewCamera, go, width, height))
+			if(PrepareCamera(PreviewCamera, go, width, height))
 			{
 				go = GameObject.Instantiate(go);
 				go.transform.position = Vector3.zero;
@@ -39,8 +44,8 @@ namespace GILES
 				RenderTexture renderTexture = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 1);
 				RenderTexture.active = renderTexture;
 
-				previewCamera.targetTexture = renderTexture;
-				previewCamera.Render();
+				PreviewCamera.targetTexture = renderTexture;
+				PreviewCamera.Render();
 
 				tex = new Texture2D(width, height);
 				tex.ReadPixels(new Rect(0,0,renderTexture.width,renderTexture.height), 0, 0);

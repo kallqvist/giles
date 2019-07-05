@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Resize grid element width and height to best fit the available space.
 	 */
-	public class pb_GridLayoutGroup : GridLayoutGroup, pb_IOnResizeHandler
+#pragma warning disable IDE1006    
+    public class pb_GridLayoutGroup : GridLayoutGroup, pb_IOnResizeHandler
 	{
-		public Vector2 elementSize = new Vector2(100f, 100f);
+#pragma warning restore IDE1006
+
+        public Vector2 elementSize = new Vector2(100f, 100f);
 
 		public bool maintainAspectRatio = true;
 

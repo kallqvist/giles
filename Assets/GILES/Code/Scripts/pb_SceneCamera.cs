@@ -9,7 +9,6 @@
 // #define USE_DELTA_TIME
 
 using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
 
 namespace GILES
@@ -19,11 +18,13 @@ namespace GILES
 	 * - "Horizontal", "Vertical", "CameraUp", with Gravity and Sensitivity set to 3.
 	 */
 	[RequireComponent(typeof(Camera))]
-	public class pb_SceneCamera : MonoBehaviour
+#pragma warning disable IDE1006
+    public class pb_SceneCamera : MonoBehaviour
 	{
-		private static pb_SceneCamera instance;
+#pragma warning restore IDE1006
+        private static pb_SceneCamera instance;
 
-		private pb_SceneEditor editor { get { return pb_InputManager.GetCurrentEditor(); } }
+		private pb_SceneEditor _editor { get { return pb_InputManager.GetCurrentEditor(); } }
 
 		public delegate void OnCameraMoveEvent(pb_SceneCamera cam);
 		public event OnCameraMoveEvent OnCameraMove;
@@ -45,13 +46,13 @@ namespace GILES
 				instance.OnCameraMove += del;
 		}
 
-		public ViewTool cameraState { get; private set; }
+		public ViewTool CameraState { get; private set; }
 
 		public Texture2D PanCursor;
 		public Texture2D OrbitCursor;
 		public Texture2D DollyCursor;
 		public Texture2D LookCursor;
-		private Texture2D currentCursor;
+		private readonly Texture2D currentCursor;
 
 		const int CURSOR_ICON_SIZE = 64;
 
@@ -126,11 +127,11 @@ namespace GILES
 			screenCenterRect.x = Screen.width/2-32;
 			screenCenterRect.y = screenHeight/2-32;
 
-			Cursor.visible = cameraState == ViewTool.None;	/// THIS FLICKERS IN EDITOR, BUT NOT BUILD
+			Cursor.visible = CameraState == ViewTool.None;	/// THIS FLICKERS IN EDITOR, BUT NOT BUILD
 
-			if(cameraState != ViewTool.None)
+			if(CameraState != ViewTool.None)
 			{	
-				switch(cameraState)
+				switch(CameraState)
 				{
 					case ViewTool.Orbit:
 						GUI.Label(mouseCursorRect, OrbitCursor);
@@ -153,7 +154,7 @@ namespace GILES
 		 */
 		public bool IsUsingMouse(Vector2 mousePosition)
 		{
-			return cameraState != ViewTool.None || eatMouse || Input.GetKey(KeyCode.LeftAlt);
+			return CameraState != ViewTool.None || eatMouse || Input.GetKey(KeyCode.LeftAlt);
 		}
 
 		public bool IsUsingKey()
@@ -171,7 +172,7 @@ namespace GILES
 
 			if(Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(2))
 			{
-				if(cameraState != ViewTool.None && OnCameraFinishMove != null)
+				if(CameraState != ViewTool.None && OnCameraFinishMove != null)
 					OnCameraFinishMove(this);
 				
 				currentActionValid = true;
@@ -191,7 +192,7 @@ namespace GILES
 				}
 			}
 
-			cameraState = ViewTool.None;
+			CameraState = ViewTool.None;
 
 			/**
 			 * Camera is flying itself to a target
@@ -208,7 +209,7 @@ namespace GILES
 
 				if( Mathf.Approximately(delta, 0f) )
 				{
-					cameraState = ViewTool.Dolly;
+					CameraState = ViewTool.Dolly;
 					delta = pb_HandleUtility.CalcSignedMouseDelta(Input.mousePosition, prev_mousePosition);
 				}	
 
@@ -217,7 +218,7 @@ namespace GILES
 				transform.position = transform.localRotation * (Vector3.forward * -distanceToCamera) + pivot;
 			}
 
-			bool viewTool = editor == null || editor.EnableCameraControls();
+			bool viewTool = _editor == null || _editor.EnableCameraControls();
 
 			/**
 			 * If the current tool isn't View, or no mouse button is pressed, record the mouse position then early exit.
@@ -244,7 +245,7 @@ namespace GILES
 			  */
 			if( Input.GetMouseButton(RIGHT_MOUSE) && !Input.GetKey(KeyCode.LeftAlt) )//|| Input.GetKey(KeyCode.LeftShift) )
 			{
-				cameraState = ViewTool.Look;
+				CameraState = ViewTool.Look;
 
 				eatMouse = true;
 
@@ -283,7 +284,7 @@ namespace GILES
 			 */
 			if(Input.GetKey(KeyCode.LeftAlt) && Input.GetMouseButton(LEFT_MOUSE))
 			{
-				cameraState = ViewTool.Orbit;
+				CameraState = ViewTool.Orbit;
 
 				eatMouse = true;
 
@@ -315,7 +316,7 @@ namespace GILES
 			 */
 			if(Input.GetMouseButton(MIDDLE_MOUSE) || (Input.GetMouseButton(LEFT_MOUSE) && viewTool ) )
 			{
-				cameraState = ViewTool.Pan;
+				CameraState = ViewTool.Pan;
 
 				Vector2 delta = Input.mousePosition - prev_mousePosition;
 				

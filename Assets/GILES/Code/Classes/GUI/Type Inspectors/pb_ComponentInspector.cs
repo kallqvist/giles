@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 
 namespace GILES.Interface
 {
@@ -8,9 +6,13 @@ namespace GILES.Interface
 	 * Field editor for Component types.
 	 */
 	[pb_TypeInspector(typeof(Component))]
-	public class pb_ComponentInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+
+    public class pb_ComponentInspector : pb_TypeInspector
 	{
-		public override void InitializeGUI()
+#pragma warning restore IDE1006
+
+        public override void InitializeGUI()
 		{}
 			
 		protected override void OnUpdateGUI()

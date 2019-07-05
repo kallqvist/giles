@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace GILES
 {
 
-	/**
+    /**
 	 * Helper methods for Input
 	 */
-	public static class pb_InputExtension
+#pragma warning disable IDE1006
+    public static class pb_InputExtension
 	{
+#pragma warning restore IDE1006
 
-		public static bool Shift()
+        public static bool Shift()
 		{
 			return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 		}

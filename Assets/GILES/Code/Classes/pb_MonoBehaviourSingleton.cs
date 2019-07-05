@@ -2,16 +2,19 @@ using UnityEngine;
 
 namespace GILES
 {
-	/**
+    /**
 	 * A singleton implementation for MonoBehaviours.
 	 */
-	public class pb_MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
+#pragma warning disable IDE1006
+    public class pb_MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
 	{
-		/// The actual instance of this type.
-		private static MonoBehaviour _instance;
+#pragma warning restore IDE1006
+
+        /// The actual instance of this type.
+        private static MonoBehaviour _instance;
 
 		/// Override to maintain an instance of this object across level loads.
-		public virtual bool dontDestroyOnLoad { get { return false; } }
+		public virtual bool DoNotDestroyOnLoad { get { return false; } }
 
 		/**
 		 * Called when an instance is initialized due to no previous instance found.  Use this to
@@ -24,7 +27,7 @@ namespace GILES
 		 * Get an instance to this MonoBehaviour.  Always returns a valid object.
 		 * \sa nullableInstance
 		 */
-		public static T instance
+		public static T Instance
 		{
 			get
 			{
@@ -54,7 +57,7 @@ namespace GILES
 						_instance = (MonoBehaviour) inst;
 					}
 
-					if(((pb_MonoBehaviourSingleton<T>)_instance).dontDestroyOnLoad)
+					if(((pb_MonoBehaviourSingleton<T>)_instance).DoNotDestroyOnLoad)
 						Object.DontDestroyOnLoad(_instance.gameObject);
 				}
 
@@ -65,7 +68,7 @@ namespace GILES
 		/**
 		 * Return the instance if it has been initialized, null otherwise.
 		 */
-		public static T nullableInstance
+		public static T NullableInstance
 		{
 			get { return (T) _instance; }
 		}
@@ -79,7 +82,7 @@ namespace GILES
 			{
 				_instance = this;
 
-				if(((pb_MonoBehaviourSingleton<T>)_instance).dontDestroyOnLoad)
+				if(((pb_MonoBehaviourSingleton<T>)_instance).DoNotDestroyOnLoad)
 					Object.DontDestroyOnLoad(_instance.gameObject);
 			}
 			else

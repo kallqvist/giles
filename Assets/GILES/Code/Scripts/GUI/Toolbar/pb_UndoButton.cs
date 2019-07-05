@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-
-namespace GILES
+﻿namespace GILES
 {
-	public class pb_UndoButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_UndoButton : pb_ToolbarButton
 	{
-		public override string tooltip
+#pragma warning restore IDE1006
+        public override string Tooltip
 		{
 			get
 			{
@@ -23,13 +21,13 @@ namespace GILES
 		{
 			base.Start();
 
-			if(Undo.instance.undoStackModified != null)	
-				Undo.instance.undoStackModified += UndoStackModified;
+			if(Undo.Instance.undoStackModified != null)	
+				Undo.Instance.undoStackModified += UndoStackModified;
 			else
-				Undo.instance.undoStackModified = UndoStackModified;
+				Undo.Instance.undoStackModified = UndoStackModified;
 
-			pb_Scene.AddOnLevelLoadedListener( () => { interactable = false; } );
-			pb_Scene.AddOnLevelClearedListener( () => { interactable = false; } );
+			pb_Scene.AddOnLevelLoadedListener( () => { Interactable = false; } );
+			pb_Scene.AddOnLevelClearedListener( () => { Interactable = false; } );
 
 			UndoStackModified();
 		}
@@ -41,7 +39,7 @@ namespace GILES
 
 		private void UndoStackModified()
 		{
-			interactable = !string.IsNullOrEmpty(Undo.GetCurrentUndo());
+			Interactable = !string.IsNullOrEmpty(Undo.GetCurrentUndo());
 		}
 	}
 }

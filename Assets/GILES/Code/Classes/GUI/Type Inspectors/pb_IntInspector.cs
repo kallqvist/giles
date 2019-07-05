@@ -1,16 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
-
-namespace GILES.Interface
+﻿namespace GILES.Interface
 {
 	/**
 	 * Field editor for integer types.
 	 */
 	[pb_TypeInspector(typeof(int))]
-	public class pb_IntInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_IntInspector : pb_TypeInspector
 	{
-		int value;
+#pragma warning restore IDE1006
+
+        int value;
 
 		public UnityEngine.UI.Text title;
 		public UnityEngine.UI.InputField input;
@@ -35,13 +34,11 @@ namespace GILES.Interface
 
 		public void OnValueChange(string val)
 		{
-			int v;
-
-			if(int.TryParse(val, out v))
-			{
-				value = v;
-				OnGUIChanged();
-			}
-		}
+            if (int.TryParse(val, out int v))
+            {
+                value = v;
+                OnGUIChanged();
+            }
+        }
 	}
 }

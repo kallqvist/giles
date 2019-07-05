@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 
 namespace GILES.Interface
 {
@@ -8,9 +6,12 @@ namespace GILES.Interface
 	 * Field editor for Material types.
 	 */
 	[pb_TypeInspector(typeof(Material))]
-	public class pb_MaterialInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_MaterialInspector : pb_TypeInspector
 	{
-		Material value;
+#pragma warning restore IDE1006
+
+        Material value;
 
 		public UnityEngine.UI.Text title;
 		public UnityEngine.UI.InputField dropbox;

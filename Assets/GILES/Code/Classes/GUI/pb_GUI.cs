@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Static GUI methods for working with user input.
 	 */
-	public class pb_GUI
+#pragma warning disable IDE1006
+    public class pb_GUI
 	{
-		/// Used to relay the current width of a rendering view.  Do not use this for anything unless
-		/// you set it explicitly prior to use.
-		internal static int viewWidth;
+#pragma warning restore IDE1006
 
 		/**
 		 * Defines a standard style for header labels in inspectors.
@@ -37,9 +35,7 @@ namespace GILES.Interface
 
 			str = GUILayout.TextField(str, layoutOptions);
 
-			float val;
-
-			if(float.TryParse(str, out val) && !Mathf.Approximately(value, val))
+			if(float.TryParse(str, out float val) && !Mathf.Approximately(value, val))
 				return val;
 			else
 				return value;
@@ -54,9 +50,7 @@ namespace GILES.Interface
 
 			str = GUILayout.TextField(str);
 
-			int val;
-
-			if(int.TryParse(str, out val))
+			if(int.TryParse(str, out int val))
 				return val;
 			else
 				return value;

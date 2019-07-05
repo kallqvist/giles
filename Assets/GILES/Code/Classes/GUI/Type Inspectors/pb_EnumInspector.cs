@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Reflection;
+﻿using UnityEngine.UI;
 
 namespace GILES.Interface
 {
@@ -9,9 +6,12 @@ namespace GILES.Interface
 	 * Field editor for enum types.
 	 */
 	[pb_TypeInspector(typeof(System.Enum))]
-	public class pb_EnumInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_EnumInspector : pb_TypeInspector
 	{
-		object value;
+#pragma warning restore IDE1006
+
+        object value;
 
 		public Text title;
 		public Button button;
@@ -29,8 +29,8 @@ namespace GILES.Interface
 			title.text = GetName().SplitCamelCase();
 			button.onClick.AddListener( OnClick );
 
-			enumNames = System.Enum.GetNames(declaringType);
-			enumValues = System.Enum.GetValues(declaringType);
+			enumNames = System.Enum.GetNames(DeclaringType);
+			enumValues = System.Enum.GetValues(DeclaringType);
 		}
 
 		void OnClick()

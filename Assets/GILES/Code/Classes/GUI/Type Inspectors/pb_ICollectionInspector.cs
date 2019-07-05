@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Reflection;
 using System.Linq;
 
 namespace GILES.Interface
@@ -9,10 +8,13 @@ namespace GILES.Interface
 	 * Field editor for collections.
 	 */
 	[pb_TypeInspector(typeof(ICollection))]
-	public class pb_ICollectionInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_ICollectionInspector : pb_TypeInspector
 	{
-		/// If a collection count is greater than this value, it won't be expanded into editable fields.
-		const int MAX_COLLECTION_LENGTH = 32;
+#pragma warning restore IDE1006
+
+        /// If a collection count is greater than this value, it won't be expanded into editable fields.
+        const int MAX_COLLECTION_LENGTH = 32;
 
 		ICollection value;
 		object[] array;
@@ -39,10 +41,10 @@ namespace GILES.Interface
 				if(array.Length < 1 || array.Length > 32)
 					return;
 
-				if(declaringType == null || declaringType.GetElementType() == null)
+				if(DeclaringType == null || DeclaringType.GetElementType() == null)
 					return;
 
-				System.Type elementType = declaringType.GetElementType();
+				System.Type elementType = DeclaringType.GetElementType();
 
 				string typeName = elementType.ToString().Substring(elementType.ToString().LastIndexOf('.') + 1);
 

@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 
 namespace GILES.Interface
 {
 	/**
 	 * Field editor for UnityEngine.Object types.
 	 */
-	[pb_TypeInspector(typeof(UnityEngine.Object))]
-	public class pb_UnityObjectInspector : pb_TypeInspector
+	[pb_TypeInspector(typeof(Object))]
+#pragma warning disable IDE1006
+    public class pb_UnityObjectInspector : pb_TypeInspector
 	{
-		UnityEngine.Object value;
+#pragma warning restore IDE1006
+
+        UnityEngine.Object value;
 
 		public UnityEngine.UI.Text title;
 		public UnityEngine.UI.InputField dropbox;

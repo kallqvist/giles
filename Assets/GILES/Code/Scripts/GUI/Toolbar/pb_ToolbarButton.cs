@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections;
 using GILES.Interface;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Base class for toolbar selectable actions.
 	 */
-	public class pb_ToolbarButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+#pragma warning disable IDE1006
+    public class pb_ToolbarButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{
-		protected Selectable selectable;
+#pragma warning restore IDE1006
+        protected Selectable selectable;
 
-		public virtual string tooltip { get { return ""; } }
+		public virtual string Tooltip { get { return ""; } }
 
-		public bool interactable
+		public bool Interactable
 		{
 			get
 			{
@@ -52,7 +53,7 @@ namespace GILES
 
 		public void ShowTooltip()
 		{
-			string description = tooltip;
+			string description = Tooltip;
 
 			if( !string.IsNullOrEmpty(description) )
 			{
@@ -72,13 +73,13 @@ namespace GILES
 		{
 			if(tooltip_label != null)
 			{
-				if( string.IsNullOrEmpty(tooltip) )
+				if( string.IsNullOrEmpty(Tooltip) )
 				{
 					GameObject.Destroy(tooltip_label);
 				}
 				else
 				{
-					tooltip_label.GetComponent<Text>().text = tooltip;
+					tooltip_label.GetComponent<Text>().text = Tooltip;
 				}
 			}
 		}

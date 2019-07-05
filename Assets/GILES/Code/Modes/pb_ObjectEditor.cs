@@ -1,25 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using GILES.Interface;
 
 namespace GILES
 {
-	/**
+    /**
 	 * A generic editor that allows selecting and moving around GameObjects.
 	 */
-	public class pb_ObjectEditor : pb_SceneEditor
+#pragma warning disable IDE1006
+    public class pb_ObjectEditor : pb_SceneEditor
 	{
+#pragma warning restore IDE1006
+
 #region Member
 
-		/// If true, handles will operate in global space.
-		private bool global = true;
+        /// If true, handles will operate in global space.
+        private readonly bool global = true;
 		
 		/// Used to simplify handle transformations for multiple selection movements
 		private Transform _mTransform;
 
 		/// Create or retreive the parent transform for handle movements.
-		private Transform mTransform
+		private Transform Transform
 		{
 			get
 			{
@@ -54,8 +56,8 @@ namespace GILES
 			handleTransformOrigin = transform;
 			CacheSelectionTransforms();
 
-			List<IUndo> undoGroup = pb_Selection.gameObjects.Select(x => (IUndo) new UndoTransform(x.transform)).ToList();
-			Undo.RegisterStates(undoGroup, handle.GetTool().ToString() + " Tool");
+			List<IUndo> undoGroup = pb_Selection.GameObjects.Select(x => (IUndo) new UndoTransform(x.transform)).ToList();
+			Undo.RegisterStates(undoGroup, Handle.GetTool().ToString() + " Tool");
 		}
 
 		public override void OnHandleMove(pb_Transform transform)
@@ -64,30 +66,30 @@ namespace GILES
 
 			if( global )
 			{				
-				mTransform.SetTRS(handleTransformOrigin);
+				Transform.SetTRS(handleTransformOrigin);
 
-				Transform[] parents = new Transform[pb_Selection.gameObjects.Count];
+				Transform[] parents = new Transform[pb_Selection.GameObjects.Count];
 
-				for(int i = 0; i < pb_Selection.gameObjects.Count; i++)
+				for(int i = 0; i < pb_Selection.GameObjects.Count; i++)
 				{
-					GameObject go = pb_Selection.gameObjects[i];
+					GameObject go = pb_Selection.GameObjects[i];
 					go.transform.SetTRS(selectionTransformOrigin[i]);
 					parents[i] = go.transform.parent;
-					go.transform.parent = mTransform;
+					go.transform.parent = Transform;
 				}
 
-				mTransform.SetTRS(transform);
+				Transform.SetTRS(transform);
 
-				for(int i = 0; i < pb_Selection.gameObjects.Count; i++)
+				for(int i = 0; i < pb_Selection.GameObjects.Count; i++)
 				{
-					pb_Selection.gameObjects[i].transform.parent = parents[i];
+					pb_Selection.GameObjects[i].transform.parent = parents[i];
 				}
 			}
 			else
 			{
-				for(int i = 0; i < pb_Selection.gameObjects.Count; i++)
+				for(int i = 0; i < pb_Selection.GameObjects.Count; i++)
 				{
-					GameObject go = pb_Selection.gameObjects[i];
+					GameObject go = pb_Selection.GameObjects[i];
 					go.transform.SetTRS( selectionTransformOrigin[i] + delta );
 				}
 			}
@@ -98,11 +100,11 @@ namespace GILES
 		 */
 		void CacheSelectionTransforms()
 		{
-			int count = pb_Selection.gameObjects.Count;
+			int count = pb_Selection.GameObjects.Count;
 			selectionTransformOrigin = new pb_Transform[count];
 			for(int i = 0; i < count; i++)
 			{
-				selectionTransformOrigin[i] = new pb_Transform(pb_Selection.gameObjects[i].transform);
+				selectionTransformOrigin[i] = new pb_Transform(pb_Selection.GameObjects[i].transform);
 			}
 		}
 #endregion
@@ -131,7 +133,7 @@ namespace GILES
 
 		public override void OnMouseMove()
 		{
-			if(handle.InUse())
+			if(Handle.InUse())
 				return;
 
 			if(mMouseDragging)
@@ -153,7 +155,7 @@ namespace GILES
 			else
 			if(mMouseIsDown && !mDragCanceled && Vector2.Distance(mMouseOrigin, Input.mousePosition) > MOUSE_DRAG_DELTA)
 			{
-				if(pb_Selection.activeGameObject != null)
+				if(pb_Selection.ActiveGameObject != null)
 					Undo.RegisterState(new UndoSelection(), "Change Selection");
 
 				mMouseDragging = true;
@@ -167,7 +169,7 @@ namespace GILES
 
 		public override void OnMouseDown()
 		{
-			if(!handle.InUse())
+			if(!Handle.InUse())
 			{
 				mMouseOrigin = Input.mousePosition;
 				mDragCanceled = false;
@@ -177,7 +179,7 @@ namespace GILES
 		
 		public override void OnMouseUp()
 		{
-			if( !handle.InUse() )
+			if( !Handle.InUse() )
 			{
 				if(mMouseDragging || mDragCanceled)
 				{
@@ -201,14 +203,14 @@ namespace GILES
 					}
 					else
 					{
-						if( pb_Selection.activeGameObject != null )
+						if( pb_Selection.ActiveGameObject != null )
 							Undo.RegisterState(new UndoSelection(), "Change Selection");
 
 						if(!pb_InputExtension.Shift() && !pb_InputExtension.Control())
 							pb_Selection.Clear();
 
-						if(pb_Selection.gameObjects.Count < 1)
-							handle.SetIsHidden(true);
+						if(pb_Selection.GameObjects.Count < 1)
+							Handle.SetIsHidden(true);
 					}
 				}
 			}
@@ -230,7 +232,7 @@ namespace GILES
 					List<GameObject> newObjects = new List<GameObject>();
 					List<IUndo> undo = new List<IUndo>() { new UndoSelection() };
 
-					foreach(GameObject go in pb_Selection.gameObjects)
+					foreach(GameObject go in pb_Selection.GameObjects)
 					{
 						GameObject inst = (GameObject) pb_Scene.Instantiate(go);
 						newObjects.Add(inst);
@@ -249,24 +251,24 @@ namespace GILES
 
 		public override void OnSelectionChange(IEnumerable<GameObject> added)
 		{
-			if( pb_Selection.activeGameObject != null )
+			if( pb_Selection.ActiveGameObject != null )
 			{
 				
-				Transform t = pb_Selection.activeGameObject.transform;
-				handle.SetTRS(t.position, t.localRotation, Vector3.one);
-				handle.SetIsHidden(false);
+				Transform t = pb_Selection.ActiveGameObject.transform;
+				Handle.SetTRS(t.position, t.localRotation, Vector3.one);
+				Handle.SetIsHidden(false);
 			}
 			else
 			{
-				handle.SetIsHidden(true);
+				Handle.SetIsHidden(true);
 			}
 
 		}
 
 		public override void OnFrameSelection()
 		{
-			if(pb_Selection.activeGameObject != null)
-				pb_SceneCamera.Focus( pb_Selection.activeGameObject);
+			if(pb_Selection.ActiveGameObject != null)
+				pb_SceneCamera.Focus( pb_Selection.ActiveGameObject);
 			else
 				pb_SceneCamera.Focus( Vector3.zero );
 		}

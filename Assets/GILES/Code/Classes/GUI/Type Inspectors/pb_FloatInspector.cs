@@ -1,16 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
-
-namespace GILES.Interface
+﻿namespace GILES.Interface
 {
 	/**
 	 * Field editor for float types.
 	 */
 	[pb_TypeInspector(typeof(float))]
-	public class pb_FloatInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_FloatInspector : pb_TypeInspector
 	{
-		float value;
+#pragma warning restore IDE1006
+
+        float value;
 
 		public UnityEngine.UI.Text title;
 		public UnityEngine.UI.InputField input;
@@ -36,13 +35,11 @@ namespace GILES.Interface
 
 		public void OnValueChange(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				value = v;
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                value = v;
+                OnGUIChanged();
+            }
+        }
 	}
 }

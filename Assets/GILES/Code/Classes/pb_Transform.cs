@@ -1,16 +1,18 @@
 using UnityEngine;
 using System.Runtime.Serialization;
-using GILES.Serialization;
 
 namespace GILES
 {
 	[System.Serializable]
-	public class pb_Transform : System.IEquatable<pb_Transform>, ISerializable
+#pragma warning disable IDE1006
+    public class pb_Transform : System.IEquatable<pb_Transform>, ISerializable
 	{
-		// If the matrix needs rebuilt, this will be true.  Used to delay expensive
-		// matrix construction til necessary (since t/r/s can change a lot before a
-		// matrix is needed).
-		private bool dirty = true;
+#pragma warning restore IDE1006
+
+        // If the matrix needs rebuilt, this will be true.  Used to delay expensive
+        // matrix construction til necessary (since t/r/s can change a lot before a
+        // matrix is needed).
+        private bool dirty = true;
 
 		[SerializeField] private Vector3 _position;
 		[SerializeField] private Quaternion _rotation;
@@ -18,26 +20,26 @@ namespace GILES
 
 		private Matrix4x4 matrix;
 
-		public Vector3 position 		{ get { return _position; } set { dirty = true; _position = value; } }
-		public Quaternion rotation 		{ get { return _rotation; } set { dirty = true; _rotation = value; } }
-		public Vector3 scale 			{ get { return _scale; } set { dirty = true; _scale = value; } }
+		public Vector3 Position 		{ get { return _position; } set { dirty = true; _position = value; } }
+		public Quaternion Rotation 		{ get { return _rotation; } set { dirty = true; _rotation = value; } }
+		public Vector3 Scale 			{ get { return _scale; } set { dirty = true; _scale = value; } }
 
 		public static readonly pb_Transform identity = new pb_Transform(Vector3.zero, Quaternion.identity, Vector3.one);
 
 		public pb_Transform()
 		{
-			this.position = Vector3.zero;
-			this.rotation = Quaternion.identity;
-			this.scale = Vector3.one;
+			this.Position = Vector3.zero;
+			this.Rotation = Quaternion.identity;
+			this.Scale = Vector3.one;
 			this.matrix = Matrix4x4.identity;
 			this.dirty = false;
 		}
 
 		public pb_Transform(Vector3 position, Quaternion rotation, Vector3 scale)
 		{
-			this.position 	= position;
-			this.rotation 	= rotation;
-			this.scale		= scale;
+			this.Position 	= position;
+			this.Rotation 	= rotation;
+			this.Scale		= scale;
 
 			this.matrix 	= Matrix4x4.TRS(position, rotation, scale);
 			this.dirty 	= false;
@@ -45,21 +47,21 @@ namespace GILES
 
 		public pb_Transform(Transform transform)
 		{
-			this.position 	= transform.position;
-			this.rotation 	= transform.localRotation;
-			this.scale		= transform.localScale;
+			this.Position 	= transform.position;
+			this.Rotation 	= transform.localRotation;
+			this.Scale		= transform.localScale;
 
-			this.matrix 	= Matrix4x4.TRS(position, rotation, scale);
+			this.matrix 	= Matrix4x4.TRS(Position, Rotation, Scale);
 			this.dirty 	= false;
 		}
 
 		public pb_Transform(pb_Transform transform)
 		{
-			this.position 	= transform.position;
-			this.rotation 	= transform.rotation;
-			this.scale		= transform.scale;
+			this.Position 	= transform.Position;
+			this.Rotation 	= transform.Rotation;
+			this.Scale		= transform.Scale;
 
-			this.matrix 	= Matrix4x4.TRS(position, rotation, scale);
+			this.matrix 	= Matrix4x4.TRS(Position, Rotation, Scale);
 			this.dirty 	= false;
 		}
 
@@ -80,9 +82,9 @@ namespace GILES
 
 		public void SetTRS(Transform trs)
 		{
-			this.position 	= trs.position;
-			this.rotation 	= trs.localRotation;
-			this.scale		= trs.localScale;
+			this.Position 	= trs.position;
+			this.Rotation 	= trs.localRotation;
+			this.Scale		= trs.localScale;
 			this.dirty 		= true;
 		}
 
@@ -103,9 +105,9 @@ namespace GILES
 
 		public bool Equals(pb_Transform rhs)
 		{
-			return 	Approx(this.position, rhs.position) &&
-					Approx(this.rotation, rhs.rotation) &&
-					Approx(this.scale, rhs.scale);
+			return 	Approx(this.Position, rhs.Position) &&
+					Approx(this.Rotation, rhs.Rotation) &&
+					Approx(this.Scale, rhs.Scale);
 		}
 
 		public override bool Equals(System.Object rhs)
@@ -115,7 +117,7 @@ namespace GILES
 
 		public override int GetHashCode()
 		{
-			return position.GetHashCode() ^ rotation.GetHashCode() ^ scale.GetHashCode();
+			return Position.GetHashCode() ^ Rotation.GetHashCode() ^ Scale.GetHashCode();
 		}
 
 		public Matrix4x4 GetMatrix()
@@ -127,48 +129,51 @@ namespace GILES
 			else
 			{
 				this.dirty = false;
-				matrix = Matrix4x4.TRS(position, rotation, scale);
+				matrix = Matrix4x4.TRS(Position, Rotation, Scale);
 				return matrix;
 			}
 		}
 
 		public static pb_Transform operator - (pb_Transform lhs, pb_Transform rhs)
 		{
-			pb_Transform t = new pb_Transform();
+            pb_Transform t = new pb_Transform
+            {
+                Position = lhs.Position - rhs.Position,
+                Rotation = Quaternion.Inverse(rhs.Rotation) * lhs.Rotation,
+                Scale = new Vector3(lhs.Scale.x / rhs.Scale.x,
+                                    lhs.Scale.y / rhs.Scale.y,
+                                    lhs.Scale.z / rhs.Scale.z)
+            };
 
-			t.position = lhs.position - rhs.position;
-			t.rotation = Quaternion.Inverse(rhs.rotation) * lhs.rotation;
-			t.scale = new Vector3(	lhs.scale.x / rhs.scale.x,
-									lhs.scale.y / rhs.scale.y,
-									lhs.scale.z / rhs.scale.z);
-
-			return t;
+            return t;
 		}
 
 		public static pb_Transform operator + (pb_Transform lhs, pb_Transform rhs)
 		{
-			pb_Transform t = new pb_Transform();
+            pb_Transform t = new pb_Transform
+            {
+                Position = lhs.Position + rhs.Position,
+                Rotation = lhs.Rotation * rhs.Rotation,
+                Scale = new Vector3(lhs.Scale.x * rhs.Scale.x,
+                                    lhs.Scale.y * rhs.Scale.y,
+                                    lhs.Scale.z * rhs.Scale.z)
+            };
 
-			t.position = lhs.position + rhs.position;
-			t.rotation = lhs.rotation * rhs.rotation;
-			t.scale = new Vector3(	lhs.scale.x * rhs.scale.x,
-									lhs.scale.y * rhs.scale.y,
-									lhs.scale.z * rhs.scale.z);
-
-			return t;
+            return t;
 		}
 
 		public static pb_Transform operator + (Transform lhs, pb_Transform rhs)
 		{
-			pb_Transform t = new pb_Transform();
+            pb_Transform t = new pb_Transform
+            {
+                Position = lhs.position + rhs.Position,
+                Rotation = lhs.localRotation * rhs.Rotation,
+                Scale = new Vector3(lhs.localScale.x * rhs.Scale.x,
+                                    lhs.localScale.y * rhs.Scale.y,
+                                    lhs.localScale.z * rhs.Scale.z)
+            };
 
-			t.position = lhs.position + rhs.position;
-			t.rotation = lhs.localRotation * rhs.rotation;
-			t.scale = new Vector3(	lhs.localScale.x * rhs.scale.x,
-									lhs.localScale.y * rhs.scale.y,
-									lhs.localScale.z * rhs.scale.z);
-
-			return t;
+            return t;
 		}
 
 		public static bool operator == (pb_Transform lhs, pb_Transform rhs)
@@ -181,13 +186,13 @@ namespace GILES
 			return !(lhs == rhs);
 		}
 
-		public Vector3 up { get { return rotation * Vector3.up; }	}
-		public Vector3 forward { get { return rotation * Vector3.forward; }	}
-		public Vector3 right { get { return rotation * Vector3.right; }	}
+		public Vector3 Up { get { return Rotation * Vector3.up; }	}
+		public Vector3 Forward { get { return Rotation * Vector3.forward; }	}
+		public Vector3 Right { get { return Rotation * Vector3.right; }	}
 
 		public override string ToString()
 		{
-			return position.ToString("F2") + "\n" + rotation.ToString("F2") + "\n" + scale.ToString("F2");
+			return Position.ToString("F2") + "\n" + Rotation.ToString("F2") + "\n" + Scale.ToString("F2");
 		}
 	}
 }

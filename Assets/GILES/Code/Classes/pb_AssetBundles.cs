@@ -1,17 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace GILES
 {
-	/**
+    /**
 	 * pb_AssetBundles provides an interface to accessing AssetBundle objects.  It handles loading and unloading
 	 * automatically.
 	 */
-	public class pb_AssetBundles : pb_MonoBehaviourSingleton<pb_AssetBundles>
+#pragma warning disable IDE1006
+    public class pb_AssetBundles : pb_MonoBehaviourSingleton<pb_AssetBundles>
 	{
-		public override bool dontDestroyOnLoad { get { return true; } }
+#pragma warning restore IDE1006
+
+        public override bool DoNotDestroyOnLoad { get { return true; } }
 
 		List<string> availableAssetBundles = new List<string>();
 		Dictionary<string, AssetBundle> loadedAssetBundles = new Dictionary<string, AssetBundle>();
@@ -24,7 +26,7 @@ namespace GILES
 		 */
 		public static void RegisterAssetBundle(string path)
 		{
-			pb_AssetBundles.instance._RegisterAssetBundle(pb_FileUtility.GetFullPath(path));
+			pb_AssetBundles.Instance._RegisterAssetBundle(pb_FileUtility.GetFullPath(path));
 		}
 
 		/**
@@ -33,7 +35,7 @@ namespace GILES
 		public static AssetBundle LoadAssetBundle(string path)
 		{
 			string full_path = pb_FileUtility.GetFullPath(path);
-			return pb_AssetBundles.instance._LoadAssetBundle(full_path);
+			return pb_AssetBundles.Instance._LoadAssetBundle(full_path);
 		}
 
 		/**
@@ -42,7 +44,7 @@ namespace GILES
 		 */
 		public static AssetBundle LoadAssetBundleWithName(string name)
 		{
-			return pb_AssetBundles.instance._LoadAssetBundleWithName(name);
+			return pb_AssetBundles.Instance._LoadAssetBundleWithName(name);
 		}
 
 		/**
@@ -51,7 +53,7 @@ namespace GILES
 		 */
 		public static bool GetAssetPath<T>(T asset, out pb_AssetBundlePath path) where T : UnityEngine.Object
 		{
-			return pb_AssetBundles.instance._GetAssetPath<T>(asset, out path);
+			return pb_AssetBundles.Instance._GetAssetPath<T>(asset, out path);
 		}
 
 		/**
@@ -59,7 +61,7 @@ namespace GILES
 		 */
 		public static T LoadAsset<T>(pb_AssetBundlePath path) where T : UnityEngine.Object
 		{
-			return pb_AssetBundles.instance._LoadAsset<T>(path);
+			return pb_AssetBundles.Instance._LoadAsset<T>(path);
 		}
 #endregion
 
@@ -73,18 +75,16 @@ namespace GILES
 
 		private AssetBundle _LoadAssetBundle(string full_path)
 		{
-			AssetBundle bundle = null;
+            if (!loadedAssetBundles.TryGetValue(full_path, out AssetBundle bundle))
+            {
+                _RegisterAssetBundle(full_path);
 
-			if(!loadedAssetBundles.TryGetValue(full_path, out bundle))
-			{
-				_RegisterAssetBundle(full_path);
-                
-				bundle = AssetBundle.LoadFromFile(full_path);
+                bundle = AssetBundle.LoadFromFile(full_path);
 
-				loadedAssetBundles.Add(full_path, bundle);
-			}
+                loadedAssetBundles.Add(full_path, bundle);
+            }
 
-			return bundle;
+            return bundle;
 		}
 
 		private void _UnloadAssetBundle(string full_path, bool unloadAllLoadedObjects)

@@ -1,15 +1,17 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Collection of commonly used GUI styles.
 	 */
-	public static class pb_EditorStyles
+#pragma warning disable IDE1006
+    public static class pb_EditorStyles
 	{
+#pragma warning restore IDE1006
 
-		/**
+
+        /**
 		 * pb_GUIStyle requires one parameter: color.  All others are optional.
 		 *	Color color,
 		 *	-Color? normalColor = null,
@@ -22,8 +24,8 @@ namespace GILES.Interface
 		 *	-Color? fontColor = null)
 		 */
 
-		/// Button style.
-		public static pb_GUIStyle ButtonStyle = pb_GUIStyle.Create(
+        /// Button style.
+        public static pb_GUIStyle ButtonStyle = pb_GUIStyle.Create(
 			Color.white,
 			new Color(.2f, .2f, .2f, .7f),
 			new Color(.27f, .27f, .27f, 1f),

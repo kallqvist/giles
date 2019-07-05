@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using UnityEditor.Callbacks;
 
 namespace GILES.UnityEditor
 {
@@ -15,12 +13,12 @@ namespace GILES.UnityEditor
 	{
 		static MarkResourceObjects()
 		{
-			EditorApplication.projectWindowChanged += ProjectWindowChanged;
+			EditorApplication.projectChanged += ProjectWindowChanged;
 		}
 
 		~MarkResourceObjects()
 		{
-			EditorApplication.projectWindowChanged -= ProjectWindowChanged;
+			EditorApplication.projectChanged -= ProjectWindowChanged;
 		}
 
 		[MenuItem("Tools/Level Editor/Rebuild Resource IDs")]

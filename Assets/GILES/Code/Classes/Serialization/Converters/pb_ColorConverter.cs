@@ -1,22 +1,24 @@
 using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
-using System.Reflection;
 using System;
 using System.Linq;
 
 namespace GILES.Serialization
 {
-	public class pb_ColorConverter : JsonConverter
+#pragma warning disable IDE1006
+    public class pb_ColorConverter : JsonConverter
 	{
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-		{
-			JObject o = new JObject();
+#pragma warning restore IDE1006
 
-			o.Add("$type", value.GetType().AssemblyQualifiedName);
-			
-			if(value is Color)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+            JObject o = new JObject
+            {
+                { "$type", value.GetType().AssemblyQualifiedName }
+            };
+
+            if (value is Color)
 			{
 				o.Add("r", ((UnityEngine.Color)value).r);
 				o.Add("g", ((UnityEngine.Color)value).g);

@@ -16,7 +16,7 @@ namespace GILES
 			Hashtable hash = new Hashtable();
 			int n = 0;
 
-			foreach(GameObject go in pb_Selection.gameObjects)
+			foreach(GameObject go in pb_Selection.GameObjects)
 				hash.Add(n++, go);
 
 			return hash;

@@ -3,22 +3,20 @@
 using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using GILES;
 
 namespace GILES.Serialization
 {
-	/**
+    /**
 	 * @todo
 	 */
-	public class pb_ContractResolver : DefaultContractResolver
+#pragma warning disable IDE1006
+    public class pb_ContractResolver : DefaultContractResolver
 	{
-		protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+#pragma warning restore IDE1006
+        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
 		{
 			JsonProperty property = base.CreateProperty(member, memberSerialization);
 
@@ -31,22 +29,20 @@ namespace GILES.Serialization
 					if( pb_Reflection.HasIgnoredAttribute(member) )
 						return false;
 
-					if(member is PropertyInfo)
-					{
-						PropertyInfo prop = (PropertyInfo) member;
-
-						if (prop.CanRead && prop.CanWrite && !prop.IsSpecialName)
-						{
-							prop.GetValue(instance, null);
-							return true;
-						}
-					}
-					else if(member is FieldInfo)
-					{
-						return true;
-					}
+                    if (member is PropertyInfo prop)
+                    {
+                        if (prop.CanRead && prop.CanWrite && !prop.IsSpecialName)
+                        {
+                            prop.GetValue(instance, null);
+                            return true;
+                        }
+                    }
+                    else if (member is FieldInfo)
+                    {
+                        return true;
+                    }
 #if !PB_DEBUG
-				}
+                }
 				catch (System.Exception e) {
 					Debug.LogWarning("Can't create field \"" + member.Name + "\" " + member.DeclaringType + " -> " + member.ReflectedType + "\n\n" + e.ToString());
 				}
@@ -88,12 +84,10 @@ namespace GILES.Serialization
 
 		private static T GetConverter<T>() where T : JsonConverter, new()
 		{
-			JsonConverter conv;
+            if (converters.TryGetValue(typeof(T), out JsonConverter conv))
+                return (T)conv;
 
-			if(converters.TryGetValue(typeof(T), out conv))
-				return (T) conv;
-
-			conv = new T();
+            conv = new T();
 
 			converters.Add(typeof(T), conv);
 

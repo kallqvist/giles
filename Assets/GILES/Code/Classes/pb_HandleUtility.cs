@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace GILES
 {
 
-	/**
+    /**
 	 * Collection of static methods commonly used when working with scene handles.
 	 */
-	public class pb_HandleUtility
+#pragma warning disable IDE1006
+    public class pb_HandleUtility
 	{
+#pragma warning restore IDE1006
 
-		/**
+        /**
 		 * Returns the nearest point on each line to the other line.
 		 *
 		 * http://wiki.unity3d.com/index.php?title=3d_Math_functions
@@ -19,7 +20,7 @@ namespace GILES
 		 * to each other. This function finds those two points. If the lines are not parallel, the function
 		 * outputs true, otherwise false.
 		 */
-		public static bool ClosestPointsOnTwoLines(Vector3 linePoint1, Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2, out Vector3 closestPointLine1, out Vector3 closestPointLine2)
+        public static bool ClosestPointsOnTwoLines(Vector3 linePoint1, Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2, out Vector3 closestPointLine1, out Vector3 closestPointLine2)
 		{
 			closestPointLine1 = Vector3.zero;
 			closestPointLine2 = Vector3.zero;
@@ -73,19 +74,17 @@ namespace GILES
 		 */
 		public static bool PointOnPlane(Ray ray, Plane plane, out Vector3 hit)
 		{
-			float distance;
-
-			if(plane.Raycast(ray, out distance))
-			{
-				hit = ray.GetPoint(distance);
-				return true;
-			}
-			else
-			{
-				hit = Vector3.zero;
-				return false;
-			}
-		}
+            if (plane.Raycast(ray, out float distance))
+            {
+                hit = ray.GetPoint(distance);
+                return true;
+            }
+            else
+            {
+                hit = Vector3.zero;
+                return false;
+            }
+        }
 
 		private static Vector3 Mask(Vector3 vec)
 		{
@@ -181,46 +180,44 @@ namespace GILES
 			GameObject obj = null;
 			Bounds bounds = new Bounds(Vector3.zero, Vector3.one);
 
-			pb_RaycastHit hit;
+            foreach (GameObject go in objects)
+            {
+                Ray localRay = TransformRay(ray, go.transform);
 
-			foreach(GameObject go in objects)
-			{
-				Ray localRay = TransformRay(ray, go.transform);
+                renderer = go.GetComponent<Renderer>();
 
-				renderer = go.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    if (renderer.bounds.IntersectRay(ray, out distance))
+                    {
+                        MeshFilter mf = go.GetComponent<MeshFilter>();
 
-				if( renderer != null )
-				{
-					if( renderer.bounds.IntersectRay(ray, out distance) )
-					{
-						MeshFilter mf = go.GetComponent<MeshFilter>();
+                        if (mf != null && mf.sharedMesh != null && MeshRaycast(mf.sharedMesh, localRay, out pb_RaycastHit hit))
+                        {
+                            if (hit.distance < best)
+                            {
+                                best = hit.distance;
+                                obj = go;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    bounds.center = go.transform.position;
 
-						if( mf != null && mf.sharedMesh != null && MeshRaycast(mf.sharedMesh, localRay, out hit))
-						{
-							if(hit.distance < best)
-							{
-								best = hit.distance;
-								obj = go;
-							}
-						}
-					}
-				}
-				else
-				{
-					bounds.center = go.transform.position;
+                    if (bounds.IntersectRay(ray, out distance))
+                    {
+                        if (distance < best)
+                        {
+                            best = distance;
+                            obj = go;
+                        }
+                    }
+                }
+            }
 
-					if(bounds.IntersectRay(ray, out distance))
-					{
-						if( distance < best )
-						{
-							best = distance;
-							obj = go;
-						}
-					}
-				}
-			}
-
-			return obj;
+            return obj;
 		}
 
 		public static bool MeshRaycast(Mesh mesh, Ray ray, out pb_RaycastHit hit)
@@ -240,9 +237,11 @@ namespace GILES
 
 				if(pb_Geometry.RayIntersectsTriangle(ray, a, b, c, Culling.Front, out dist, out point))
 				{
-					hit = new pb_RaycastHit();
-					hit.point = point;
-					hit.distance = Vector3.Distance(hit.point, ray.origin);
+                    hit = new pb_RaycastHit
+                    {
+                        point = point
+                    };
+                    hit.distance = Vector3.Distance(hit.point, ray.origin);
 					hit.normal = Vector3.Cross(b-a, c-a);
 					hit.triangle = new int[] { triangles[i], triangles[i+1], triangles[i+2] };
 					return true;

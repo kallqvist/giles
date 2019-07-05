@@ -8,10 +8,12 @@ namespace GILES
 	 * pb_Metadata stores information about how an asset should be stored and reconstructed.
 	 */
 	[System.Serializable()]
-	public class pb_MetaData : ISerializable
+#pragma warning disable IDE1006
+    public class pb_MetaData : ISerializable
 	{
+#pragma warning restore IDE1006
 
-		public const string GUID_NOT_FOUND = "MetaData_NoGUIDPresent";
+        public const string GUID_NOT_FOUND = "MetaData_NoGUIDPresent";
 		public const string ASSET_BUNDLE = "MetaData_BundleAsset";
 		public const string ASSET_INSTANCE = "MetaData_InstanceAsset";
 
@@ -62,7 +64,7 @@ namespace GILES
 		/**
 		 * The file id that can be used to look up this object (if this is a prefab stored in Resources folder).
 		 */
-		public string fileId
+		public string FileId
 		{
 			get { return _fileId; }
 		}
@@ -71,7 +73,7 @@ namespace GILES
 		 * Return the asset bundle information (if assetType == AssetType.Bundle) - if not a bundle
 		 * type this value will be junk.
 		 */
-		public pb_AssetBundlePath assetBundlePath
+		public pb_AssetBundlePath AssetBundlePath
 		{
 			get { return _assetBundlePath; }
 		}
@@ -79,7 +81,7 @@ namespace GILES
 		/**
 		 * Return the type of asset pointed to.
 		 */
-		public AssetType assetType
+		public AssetType AssetType
 		{
 			get { return _assetType; }
 		}

@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using GILES;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Button implementation that shows a preview of an inspector prefab object.
 	 */
-	public class pb_PrefabBrowserItemButton : Button
+#pragma warning disable IDE1006
+    public class pb_PrefabBrowserItemButton : Button
 	{
-		const int PREVIEW_LAYER = 31;
+#pragma warning restore IDE1006
+        const int PREVIEW_LAYER = 31;
 		const int PreviewWidth = 256;
 		const int PreviewHeight = 256;
 		public string prefabId = "";
@@ -29,7 +29,7 @@ namespace GILES.Interface
 		private bool[] lightWasEnabled = null;
 
 		private static Camera _previewCamera = null;
-		private static Camera previewCamera
+		private static Camera PreviewCamera
 		{
 			get
 			{
@@ -47,31 +47,35 @@ namespace GILES.Interface
 		}
 
 		private static RenderTexture _renderTexture;
-		private static RenderTexture renderTexture
+		private static RenderTexture RenderTexture
 		{
 			get
 			{
 				if(_renderTexture == null)
 				{
-					_renderTexture = new RenderTexture(PreviewWidth, PreviewHeight, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default);
-					_renderTexture.autoGenerateMips = false;
-					_renderTexture.useMipMap = false;
-				}
+                    _renderTexture = new RenderTexture(PreviewWidth, PreviewHeight, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default)
+                    {
+                        autoGenerateMips = false,
+                        useMipMap = false
+                    };
+                }
 
 				return _renderTexture;
 			}
 		}
 
 		private static Light _previewLightA = null;
-		private static Light previewLightA
+		private static Light PreviewLightA
 		{
 			get
 			{
 				if(_previewLightA == null)
 				{
-					GameObject go = new GameObject();
-					go.name = "Asset Preview Lighting";
-					go.transform.localRotation = Quaternion.Euler(15f, 330f, 0f);
+                    GameObject go = new GameObject
+                    {
+                        name = "Asset Preview Lighting"
+                    };
+                    go.transform.localRotation = Quaternion.Euler(15f, 330f, 0f);
 					_previewLightA = go.AddComponent<Light>();
 					_previewLightA.type = LightType.Directional;
 					_previewLightA.intensity = .5f;
@@ -82,15 +86,17 @@ namespace GILES.Interface
 		}
 
 		private static Light _previewLightB = null;
-		private static Light previewLightB
+		private static Light PreviewLightB
 		{
 			get
 			{
 				if(_previewLightB == null)
 				{
-					GameObject go = new GameObject();
-					go.name = "Asset Preview Lighting";
-					go.transform.localRotation = Quaternion.Euler(15f, 150f, 0f);
+                    GameObject go = new GameObject
+                    {
+                        name = "Asset Preview Lighting"
+                    };
+                    go.transform.localRotation = Quaternion.Euler(15f, 150f, 0f);
 					_previewLightB = go.AddComponent<Light>();
 					_previewLightB.type = LightType.Directional;
 					_previewLightB.intensity = .5f;
@@ -147,7 +153,7 @@ namespace GILES.Interface
 		{
 			if(doSpin)
 			{
-				previewCamera.transform.RotateAround(Vector3.zero, Vector3.up, cameraRotateSpeed * Time.deltaTime);
+				PreviewCamera.transform.RotateAround(Vector3.zero, Vector3.up, cameraRotateSpeed * Time.deltaTime);
 				RenderPreview();
 			}
 		}
@@ -160,25 +166,24 @@ namespace GILES.Interface
 			Camera cam = Camera.main;
 			GameObject go;
 
-			Vector3 org = pb_Selection.activeGameObject == null ? Vector3.zero : pb_Selection.activeGameObject.transform.position;
-			Vector3 nrm = pb_Selection.activeGameObject == null ? Vector3.up : pb_Selection.activeGameObject.transform.localRotation * Vector3.up;
+			Vector3 org = pb_Selection.ActiveGameObject == null ? Vector3.zero : pb_Selection.ActiveGameObject.transform.position;
+			Vector3 nrm = pb_Selection.ActiveGameObject == null ? Vector3.up : pb_Selection.ActiveGameObject.transform.localRotation * Vector3.up;
 
 			Plane plane = new Plane(nrm, org);
 
 			Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
-			float hit = 0f;
 
-			if( plane.Raycast(ray, out hit))
-				go = (GameObject) pb_Scene.Instantiate(asset, pb_Snap.Snap(ray.GetPoint(hit), .25f), Quaternion.identity);
-			else
-				go = (GameObject) pb_Scene.Instantiate(asset, pb_Snap.Snap(ray.GetPoint(10f), .25f), Quaternion.identity);	
+            if (plane.Raycast(ray, out float hit))
+                go = (GameObject)pb_Scene.Instantiate(asset, pb_Snap.Snap(ray.GetPoint(hit), .25f), Quaternion.identity);
+            else
+                go = (GameObject)pb_Scene.Instantiate(asset, pb_Snap.Snap(ray.GetPoint(10f), .25f), Quaternion.identity);
 
-			Undo.RegisterStates(new List<IUndo>() { new UndoSelection(), new UndoInstantiate(go) }, "Create new object");
+            Undo.RegisterStates(new List<IUndo>() { new UndoSelection(), new UndoInstantiate(go) }, "Create new object");
 			
 			pb_Selection.SetSelection(go);
 			
-			bool curSelection = pb_Selection.activeGameObject != null;
+			bool curSelection = pb_Selection.ActiveGameObject != null;
 
 			if(!curSelection)
 				pb_SceneCamera.Focus(go);
@@ -192,7 +197,7 @@ namespace GILES.Interface
 			if(!SetupPreviewRender())
 				return;
 
-			previewComponent.texture = renderTexture;
+			previewComponent.texture = RenderTexture;
 
 			doSpin = true;
 		}
@@ -204,19 +209,19 @@ namespace GILES.Interface
 
 			doSpin = false;
 
-			cameraRotation = previewCamera.transform.localRotation;
+			cameraRotation = PreviewCamera.transform.localRotation;
 
 			RenderPreview();
 
-			previewImage.ReadPixels(new Rect(0,0,renderTexture.width,renderTexture.height), 0, 0);
+			previewImage.ReadPixels(new Rect(0,0,RenderTexture.width,RenderTexture.height), 0, 0);
 			previewImage.Apply();
 
 			previewComponent.texture = previewImage;
 
 			RenderTexture.active = null;
 
-			renderTexture.DiscardContents();
-			renderTexture.Release();
+			RenderTexture.DiscardContents();
+			RenderTexture.Release();
 
 			pb_ObjectUtility.Destroy(instance);
 		}
@@ -228,13 +233,13 @@ namespace GILES.Interface
 
 			RenderPreview();
 
-			texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+			texture.ReadPixels(new Rect(0, 0, RenderTexture.width, RenderTexture.height), 0, 0);
 			texture.Apply();
 
 			RenderTexture.active = null;
 
-			renderTexture.DiscardContents();
-			renderTexture.Release();
+			RenderTexture.DiscardContents();
+			RenderTexture.Release();
 
 			pb_ObjectUtility.Destroy(instance);
 
@@ -256,12 +261,12 @@ namespace GILES.Interface
 			
 			instance.layer = PREVIEW_LAYER;
 
-			previewCamera.transform.localRotation = cameraRotation;
+			PreviewCamera.transform.localRotation = cameraRotation;
 
 			/// can return false if no renderer is available, but since we already check that there's not need to here
-			pb_AssetPreview.PrepareCamera(previewCamera, instance, PreviewWidth, PreviewHeight);
+			pb_AssetPreview.PrepareCamera(PreviewCamera, instance, PreviewWidth, PreviewHeight);
 
-			previewCamera.targetTexture = renderTexture;
+			PreviewCamera.targetTexture = RenderTexture;
 
 			return true;
 		}
@@ -274,19 +279,19 @@ namespace GILES.Interface
 				sceneLights[i].enabled = false;
 			}
 
-			RenderTexture.active = renderTexture;
+			RenderTexture.active = RenderTexture;
 
 			instance.SetActive(true);
 
-			previewLightA.gameObject.SetActive(true);
-			previewLightB.gameObject.SetActive(true);
+			PreviewLightA.gameObject.SetActive(true);
+			PreviewLightB.gameObject.SetActive(true);
 
-			previewCamera.Render();
+			PreviewCamera.Render();
 
 			instance.SetActive(false);
 
-			previewLightA.gameObject.SetActive(false);
-			previewLightB.gameObject.SetActive(false);
+			PreviewLightA.gameObject.SetActive(false);
+			PreviewLightB.gameObject.SetActive(false);
 
 			for(int i = 0; i < sceneLights.Length; i++)
 			{

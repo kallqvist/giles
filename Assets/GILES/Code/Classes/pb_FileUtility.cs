@@ -3,15 +3,18 @@ using System.IO;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Helper functions for reading information from files.
 	 */
-	public static class pb_FileUtility
+#pragma warning disable IDE1006
+    public static class pb_FileUtility
 	{
-		/**
+#pragma warning restore IDE1006
+
+        /**
 		 * Read all text from a file path.
 		 */
-		public static string ReadFile(string path)
+        public static string ReadFile(string path)
 		{
 			if( !File.Exists(path))
 			{

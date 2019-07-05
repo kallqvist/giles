@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Reflection;
-using GILES;
 using GILES.Serialization;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Base class from which type inspectors should inherit.  Type inspectors may be implemented one of two ways:
 	 * Using reflection, or using delegates.  The usage depends on the Initialize() constructor used.  If initialized
 	 * with an object and PropertyInfo or FieldInfo parameter, the value will be updated and set using reflection.  If
 	 * initialized with get/set delegates, the type inspector will query `updateValue` to get the stored value, and on
 	 * a change via GUI will call `onValueChanged` to update the stored value.
 	 */
-	public abstract class pb_TypeInspector : MonoBehaviour
+#pragma warning disable IDE1006
+    public abstract class pb_TypeInspector : MonoBehaviour
 	{
-		/// The variable name to display (if null or empty, will attempt to check propertyInfo or fieldInfo for a name).
-		public string memberName = null;
+#pragma warning restore IDE1006
+
+        /// The variable name to display (if null or empty, will attempt to check propertyInfo or fieldInfo for a name).
+        public string memberName = null;
 
 		/// The object this value was reflected from.  If inspector uses delegates to set and get value, this may be null.
 		protected object target = null;
@@ -36,12 +37,12 @@ namespace GILES.Interface
 		private int index = -1;
 
 		/// The type that was fed to GetInspector or AddTypeInspector that produced this instance.
-		public System.Type declaringType { get; private set; }
+		public System.Type DeclaringType { get; private set; }
 
 		/**
 		 * Internal function used to set declaringType (since inheriting classes cannot access protected set methods)
 		 */
-		internal void SetDeclaringType(System.Type type) { declaringType = type; }
+		internal void SetDeclaringType(System.Type type) { DeclaringType = type; }
 
 		/// If this type inspector was instantiated by an encompassing object inspector, this may be set to point to the 
 		/// parent inspector so that SetValue and GetValue calls can be propagated.
@@ -66,7 +67,7 @@ namespace GILES.Interface
 			this.target = target;
 			this.propertyInfo = prop;
 			this.fieldInfo = null;
-			this.declaringType = propertyInfo.PropertyType;
+			this.DeclaringType = propertyInfo.PropertyType;
 
 			Initialize_INTERNAL();
 		}
@@ -90,7 +91,7 @@ namespace GILES.Interface
 			this.target = target;
 			this.propertyInfo = null;
 			this.fieldInfo = field;
-			this.declaringType = fieldInfo.FieldType;
+			this.DeclaringType = fieldInfo.FieldType;
 
 			Initialize_INTERNAL();
 		}
@@ -129,14 +130,14 @@ namespace GILES.Interface
 			this.updateValueWithIndex = getStoredValueDelegateIndexed;
 			this.onValueChangedAtIndex = onValueChangedDelegateIndexed;
 
-			if(declaringType == null)
+			if(DeclaringType == null)
 			{
 				object o = updateValue != null ? updateValue() : (updateValueWithIndex != null ? updateValueWithIndex(index) : null);
 
 				if(o != null)
-					declaringType = o.GetType();
+					DeclaringType = o.GetType();
 				else
-					declaringType = null;
+					DeclaringType = null;
 			}
 
 			Initialize_INTERNAL();
@@ -147,7 +148,7 @@ namespace GILES.Interface
 			gameObject.name = GetName();
 
 			InitializeGUI();
-			if(useDefaultSkin) ApplyDefaultSkin();
+			if(UseDefaultSkin) ApplyDefaultSkin();
 			UpdateGUI();
 		}
 
@@ -163,7 +164,7 @@ namespace GILES.Interface
 		public static readonly Color InputField_TextColor = Color.white;
 		public const int InputField_MinHeight = 30;
 
-		virtual public bool useDefaultSkin { get { return true; } }
+		virtual public bool UseDefaultSkin { get { return true; } }
 
 		/**
 		 * Iterates the type inspector hierarchy and applies default skin stuff (like image, font colors, etc)
@@ -253,13 +254,11 @@ namespace GILES.Interface
 			/// keeps track of how many times per-mouse down or key focus
 			if(++onValueSetCount == 1 && !GetValue<object>().Equals(value) )
 			{
-				if( onValueBeginChange != null )
-					onValueBeginChange();
+                onValueBeginChange?.Invoke();
 
-				if(onValueBeginChangeAtIndex != null)
-					onValueBeginChangeAtIndex(index);
+                onValueBeginChangeAtIndex?.Invoke(index);
 
-				if(propertyInfo != null)
+                if (propertyInfo != null)
 					Undo.RegisterState(new UndoReflection(target, propertyInfo), "Set " + propertyInfo.Name);
 
 				if(fieldInfo != null)
@@ -340,10 +339,9 @@ namespace GILES.Interface
 		 */
 		protected virtual void OnInspectedValueSet()
 		{
-			if( onTypeInspectorSetValue != null )
-				onTypeInspectorSetValue();
+            onTypeInspectorSetValue?.Invoke();
 
-			if(parent != null)	
+            if (parent != null)	
 			{
 				parent.OnInspectedValueSet();
 			}
@@ -374,7 +372,7 @@ namespace GILES.Interface
 			if(fieldInfo != null && target != null)
 				return (T) fieldInfo.GetValue(target);
 
-			return default(T);
+			return default;
 		}
 
 		/**

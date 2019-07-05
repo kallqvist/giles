@@ -1,4 +1,3 @@
-using UnityEngine;
 using System;
 
 namespace GILES.Interface
@@ -8,10 +7,13 @@ namespace GILES.Interface
 	 * \sa pb_TypeInspector pb_InspectorResolver pb_Inspector
 	 */
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-	public class pb_TypeInspectorAttribute : Attribute
+#pragma warning disable IDE1006
+    public class pb_TypeInspectorAttribute : Attribute
 	{
-		/// The type for which this class is providing an editor.
-		public Type type;
+#pragma warning restore IDE1006
+
+        /// The type for which this class is providing an editor.
+        public Type type;
 
 		/**
 		 * Attribute constructor accepts a type argument for the inspected type.

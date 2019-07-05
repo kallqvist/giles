@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Static helper methods for rounding values.
 	 */
-	public static class pb_Snap
+#pragma warning disable IDE1006
+    public static class pb_Snap
 	{
-		/**
+#pragma warning restore IDE1006
+
+        /**
 		* Snap a value to the nearest increment.
 		*/
-		public static float Snap(float value, float increment)
+        public static float Snap(float value, float increment)
 		{
 			return Mathf.Round(value / increment) * increment;
 		}

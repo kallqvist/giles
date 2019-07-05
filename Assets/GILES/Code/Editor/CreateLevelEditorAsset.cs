@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using GILES;
 using System;
 
 namespace GILES.UnityEditor

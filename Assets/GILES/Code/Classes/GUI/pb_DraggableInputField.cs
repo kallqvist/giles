@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * An InputField override that adds the ability to intuitively drag and set the inspected value with a right click drag.
 	 */
-	public class pb_DraggableInputField : InputField
+#pragma warning disable IDE1006
+    public class pb_DraggableInputField : InputField
 	{
-		private bool isDraggingValue = false;
+#pragma warning restore IDE1006
+
+        private bool isDraggingValue = false;
 		private float value = 0f;
 
 		public override void OnBeginDrag(PointerEventData eventData)

@@ -2,14 +2,17 @@ using UnityEngine;
 
 namespace GILES
 {
-	/**
+    /**
 	 * A generic singleton implementation for ScriptableObject classes.
 	 */
-	public class pb_ScriptableObjectSingleton<T> : ScriptableObject where T : ScriptableObject
+#pragma warning disable IDE1006
+    public class pb_ScriptableObjectSingleton<T> : ScriptableObject where T : ScriptableObject
 	{
-		private static ScriptableObject _instance;
+#pragma warning restore IDE1006
 
-		public static T instance
+        private static ScriptableObject _instance;
+
+		public static T Instance
 		{
 			get
 			{
@@ -25,7 +28,7 @@ namespace GILES
 		/**
 		 * Return the instance if it has been initialized, null otherwise.
 		 */
-		public static T nullableInstance
+		public static T NullableInstance
 		{
 			get { return (T) _instance; }
 		}

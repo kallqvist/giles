@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
-using GILES;
 using UnityEngine.SceneManagement;
 using System.IO;
 
 namespace GILES.Example
 {
-	/**
+    /**
 	 * Simple example of a scene loading script.
 	 */
-	public class pb_SceneLoader : pb_MonoBehaviourSingleton<pb_SceneLoader>
+#pragma warning disable IDE1006
+    public class pb_SceneLoader : pb_MonoBehaviourSingleton<pb_SceneLoader>
 	{
-		/// Make this object persistent between scene loads.
-		public override bool dontDestroyOnLoad { get { return true; } }
+#pragma warning restore IDE1006
+        /// Make this object persistent between scene loads.
+        public override bool DoNotDestroyOnLoad { get { return true; } }
 
 		/// The scene that will be opened and loaded into.
 		public string sceneToLoadLevelInto = "Empty Scene";
@@ -51,10 +51,10 @@ namespace GILES.Example
 			}
 			else
 			{
-				instance.json = pb_FileUtility.ReadFile(san);
+				Instance.json = pb_FileUtility.ReadFile(san);
 			}
 
-			SceneManager.LoadScene(instance.sceneToLoadLevelInto);
+			SceneManager.LoadScene(Instance.sceneToLoadLevelInto);
 		}
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

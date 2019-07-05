@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Newtonsoft.Json;
 
 namespace GILES.Serialization
 {
-	public static class pb_Serialization
+#pragma warning disable IDE1006
+    public static class pb_Serialization
 	{
-		public static readonly JsonSerializerSettings ConverterSettings = new JsonSerializerSettings
+#pragma warning restore IDE1006
+
+        public static readonly JsonSerializerSettings ConverterSettings = new JsonSerializerSettings
 		{
 			ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
 			ContractResolver = new pb_ContractResolver(),

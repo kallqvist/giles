@@ -2,8 +2,6 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using System.Collections.Generic;
-using System.Collections;
 using GILES.Serialization;
 
 namespace GILES
@@ -18,11 +16,13 @@ namespace GILES
 	 */
 	[DisallowMultipleComponent]
 	[pb_JsonIgnore]
-	public class pb_MetaDataComponent : MonoBehaviour
+#pragma warning disable IDE1006
+    public class pb_MetaDataComponent : MonoBehaviour
 	{
-		/// Reference metadata information about a prefab or gameObject.  Used to
-		/// serialize and deserialize prefabs/instance objects.
-		public pb_MetaData metadata = new pb_MetaData();
+#pragma warning restore IDE1006
+        /// Reference metadata information about a prefab or gameObject.  Used to
+        /// serialize and deserialize prefabs/instance objects.
+        public pb_MetaData metadata = new pb_MetaData();
 
 		/**
 		 * Set the name and asset path that this object can be found with.
@@ -43,14 +43,14 @@ namespace GILES
 			bool modified = false;
 
 #if UNITY_EDITOR
-			if( PrefabUtility.GetPrefabType(this.gameObject) == PrefabType.Prefab && metadata.assetType != AssetType.Bundle )
+			if(PrefabUtility.GetPrefabAssetType(this.gameObject) == PrefabAssetType.Regular && metadata.AssetType != AssetType.Bundle )
 			{
 				string path = AssetDatabase.GetAssetPath(this.gameObject);
 				string guid = AssetDatabase.AssetPathToGUID(path);
 
-				if( !string.IsNullOrEmpty(metadata.fileId) && !guid.Equals(metadata.fileId) )
+				if( !string.IsNullOrEmpty(metadata.FileId) && !guid.Equals(metadata.FileId) )
 				{
-					Debug.Log("Level Editor: Resource fileId changed -> " + this.gameObject.name + " (" + metadata.fileId + " -> " + guid + ")");
+					Debug.Log("Level Editor: Resource fileId changed -> " + this.gameObject.name + " (" + metadata.FileId + " -> " + guid + ")");
 					modified = true;
 				}
 
@@ -64,7 +64,7 @@ namespace GILES
 
 		public string GetFileId()
 		{
-			return metadata.fileId;
+			return metadata.FileId;
 		}
 	}
 }

@@ -65,10 +65,10 @@ namespace GILES
 		 */
 		public static void AddUndoPerformedListener(Callback callback)
 		{
-			if(instance.undoPerformed != null)
-				instance.undoPerformed += callback;
+			if(Instance.undoPerformed != null)
+				Instance.undoPerformed += callback;
 			else
-				instance.undoPerformed = callback;
+				Instance.undoPerformed = callback;
 		}
 
 		/**
@@ -76,10 +76,10 @@ namespace GILES
 		 */
 		public static void AddRedoPerformedListener(Callback callback)
 		{
-			if(instance.redoPerformed != null)
-				instance.redoPerformed += callback;
+			if(Instance.redoPerformed != null)
+				Instance.redoPerformed += callback;
 			else
-				instance.redoPerformed = callback;
+				Instance.redoPerformed = callback;
 		}
 
 		[SerializeField] private Stack<List<UndoState>> undoStack = new Stack<List<UndoState>>();
@@ -90,7 +90,7 @@ namespace GILES
 		 */
 		public static string PrintUndoStack()
 		{
-			return instance.PrintStack(instance.undoStack);
+			return Instance.PrintStack(Instance.undoStack);
 		}
 
 		/**
@@ -98,7 +98,7 @@ namespace GILES
 		 */
 		public static string PrintRedoStack()
 		{
-			return instance.PrintStack(instance.redoStack);
+			return Instance.PrintStack(Instance.redoStack);
 		}
 
 		/**
@@ -129,18 +129,16 @@ namespace GILES
 			currentUndo = state[0];
 			undoStack.Push(state);
 
-			if(undoStackModified != null)
-				undoStackModified();
-		}
+            undoStackModified?.Invoke();
+        }
 
 		private void PushRedo(List<UndoState> state)
 		{
 			currentRedo = state[0];
 			redoStack.Push(state);
 
-			if(redoStackModified != null)
-				redoStackModified();
-		}
+            redoStackModified?.Invoke();
+        }
 
 		private List<UndoState> PopUndo()
 		{
@@ -151,10 +149,9 @@ namespace GILES
 			else
 				currentUndo = ((List<UndoState>)undoStack.Peek())[0];
 
-			if(undoStackModified != null)
-				undoStackModified();
+            undoStackModified?.Invoke();
 
-			return states;
+            return states;
 		}
 
 		private List<UndoState> PopRedo()
@@ -166,10 +163,9 @@ namespace GILES
 			else
 				currentRedo = ((List<UndoState>)redoStack.Peek())[0];
 
-			if(redoStackModified != null)
-				redoStackModified();
+            redoStackModified?.Invoke();
 
-			return states;
+            return states;
 		}
 
 		private List<UndoState> Pop(Stack<List<UndoState>> stack)
@@ -195,7 +191,7 @@ namespace GILES
 		 */
 		public static string GetCurrentUndo()
 		{
-			return instance.currentUndo == null ? "" : instance.currentUndo.message;
+			return Instance.currentUndo == null ? "" : Instance.currentUndo.message;
 		}
 
 		/**
@@ -203,7 +199,7 @@ namespace GILES
 		 */
 		public static string GetCurrentRedo()
 		{
-			return instance.currentRedo == null ? "" : instance.currentRedo.message;
+			return Instance.currentRedo == null ? "" : Instance.currentRedo.message;
 		}
 
 		/**
@@ -213,9 +209,9 @@ namespace GILES
 		 */
 		public static void RegisterState(IUndo target, string message)
 		{
-			ClearStack(instance.redoStack);
-			instance.currentRedo = null;
-			instance.PushUndo(new List<UndoState>() { new UndoState(target, message) });
+			ClearStack(Instance.redoStack);
+			Instance.currentRedo = null;
+			Instance.PushUndo(new List<UndoState>() { new UndoState(target, message) });
 		}
 
 		/**
@@ -225,10 +221,10 @@ namespace GILES
 		 */
 		public static void RegisterStates(IEnumerable<IUndo> targets, string message)
 		{
-			ClearStack(instance.redoStack);
-			instance.currentRedo = null;
+			ClearStack(Instance.redoStack);
+			Instance.currentRedo = null;
 			List<UndoState> states = targets.Select(x => new UndoState(x, message)).ToList();
-			instance.PushUndo(states);
+			Instance.PushUndo(states);
 		}
 
 		/**
@@ -236,21 +232,20 @@ namespace GILES
 		 */
 		public static void PerformUndo()
 		{
-			List<UndoState> states = instance.PopUndo();
+			List<UndoState> states = Instance.PopUndo();
 
 			if(states == null)
 				return;
 
-			instance.PushRedo(states.Select(x => new UndoState(x.target, x.message)).ToList());
+			Instance.PushRedo(states.Select(x => new UndoState(x.target, x.message)).ToList());
 
 			foreach(UndoState state in states)
 			{
 				state.Apply();
 			}
 
-			if( instance.undoPerformed != null )
-				instance.undoPerformed();
-		}
+            Instance.undoPerformed?.Invoke();
+        }
 
 		/**
 		 * If the Redo stack exists, this applies the queued Redo action.  Redo is cleared on Undo.RegisterState 
@@ -258,18 +253,17 @@ namespace GILES
 		 */
 		public static void PerformRedo()
 		{
-			List<UndoState> states = instance.PopRedo();
+			List<UndoState> states = Instance.PopRedo();
 
 			if( states == null )
 				return;
 
-			instance.PushUndo(states.Select(x => new UndoState(x.target, x.message)).ToList());
+			Instance.PushUndo(states.Select(x => new UndoState(x.target, x.message)).ToList());
 
 			foreach(UndoState state in states)
 				state.Apply();
 
-			if(	instance.redoPerformed != null )
-				instance.redoPerformed();
-		}	
+            Instance.redoPerformed?.Invoke();
+        }	
 	}
 }

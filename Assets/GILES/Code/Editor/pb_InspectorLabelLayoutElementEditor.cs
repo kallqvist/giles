@@ -1,7 +1,5 @@
-using UnityEngine;
 using UnityEditor;
 using GILES.Interface;
-using UnityEditor.UI;
 
 namespace GILES.UnityEditor
 {
@@ -11,9 +9,11 @@ namespace GILES.UnityEditor
 	 * \notes Despite a valiant effort, AVFoundation remains the undisputed king of super-long class names.
 	 */
 	[CustomEditor(typeof(pb_InspectorLabelLayoutElement))]
-	public class pb_InspectorLabelLayoutElementEditor : Editor
+#pragma warning disable IDE1006
+    public class pb_InspectorLabelLayoutElementEditor : Editor
 	{
-		public override void OnInspectorGUI()
+#pragma warning restore IDE1006
+        public override void OnInspectorGUI()
 		{
 		}
 	}

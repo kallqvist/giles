@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
-using GILES;
 
 namespace GILES.Interface
 {
-	public class pb_PrefabBrowser : MonoBehaviour
+#pragma warning disable IDE1006
+    public class pb_PrefabBrowser : MonoBehaviour
 	{
-		List<GameObject> prefabs;
+#pragma warning restore IDE1006
+        List<GameObject> prefabs;
 
 		void Start()
 		{

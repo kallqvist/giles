@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-
-namespace GILES
+﻿namespace GILES
 {
-	public class pb_RedoButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_RedoButton : pb_ToolbarButton
 	{
-		public override string tooltip
+#pragma warning restore IDE1006
+
+        public override string Tooltip
 		{
 			get
 			{
@@ -23,18 +22,18 @@ namespace GILES
 		{
 			base.Start();
 
-			if(Undo.instance.undoStackModified != null)	
-				Undo.instance.undoStackModified += RedoStackModified;
+			if(Undo.Instance.undoStackModified != null)	
+				Undo.Instance.undoStackModified += RedoStackModified;
 			else
-				Undo.instance.undoStackModified = RedoStackModified;
+				Undo.Instance.undoStackModified = RedoStackModified;
 
-			if(Undo.instance.redoStackModified != null)	
-				Undo.instance.redoStackModified += RedoStackModified;
+			if(Undo.Instance.redoStackModified != null)	
+				Undo.Instance.redoStackModified += RedoStackModified;
 			else
-				Undo.instance.redoStackModified = RedoStackModified;
+				Undo.Instance.redoStackModified = RedoStackModified;
 
-			pb_Scene.AddOnLevelLoadedListener( () => { interactable = false; } );
-			pb_Scene.AddOnLevelClearedListener( () => { interactable = false; } );
+			pb_Scene.AddOnLevelLoadedListener( () => { Interactable = false; } );
+			pb_Scene.AddOnLevelClearedListener( () => { Interactable = false; } );
 
 			RedoStackModified();
 		}
@@ -46,7 +45,7 @@ namespace GILES
 
 		private void RedoStackModified()
 		{
-			interactable = !string.IsNullOrEmpty(Undo.GetCurrentRedo());
+			Interactable = !string.IsNullOrEmpty(Undo.GetCurrentRedo());
 		}
 	}
 }

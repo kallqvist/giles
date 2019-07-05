@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace GILES
 {
@@ -7,9 +6,12 @@ namespace GILES
 	 * Draw a few arrows pointing in the direction that this light is facing.
 	 */
 	[pb_Gizmo(typeof(Camera))]
-	public class pb_Gizmo_Camera : pb_Gizmo
+#pragma warning disable IDE1006
+    public class pb_Gizmo_Camera : pb_Gizmo
 	{
-		void Start()
+#pragma warning restore IDE1006
+
+        void Start()
 		{
 			icon = pb_BuiltinResource.GetMaterial(pb_BuiltinResource.mat_CameraGizmo);
 		}

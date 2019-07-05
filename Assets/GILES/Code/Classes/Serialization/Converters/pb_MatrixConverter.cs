@@ -1,22 +1,24 @@
 using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
-using System.Reflection;
 using System;
 using System.Linq;
 
 namespace GILES.Serialization
 {
-	public class pb_MatrixConverter : JsonConverter
+#pragma warning disable IDE1006
+    public class pb_MatrixConverter : JsonConverter
 	{
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+#pragma warning restore IDE1006
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			JObject o = new JObject();
+            JObject o = new JObject
+            {
+                { "$type", value.GetType().AssemblyQualifiedName }
+            };
 
-			o.Add("$type", value.GetType().AssemblyQualifiedName);
-
-			Matrix4x4 matrix = (UnityEngine.Matrix4x4)value;
+            Matrix4x4 matrix = (UnityEngine.Matrix4x4)value;
 
 			o.Add("00", matrix[0,0]);
 			o.Add("01", matrix[0,1]);

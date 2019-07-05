@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Collections;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Given a pb_GUIStyle, this applies it to the current object.
 	 */
-	public class pb_GUIStyleApplier : MonoBehaviour
+#pragma warning disable IDE1006
+    public class pb_GUIStyleApplier : MonoBehaviour
 	{
-		public bool ignoreStyle;
+#pragma warning restore IDE1006
+        public bool ignoreStyle;
 		public pb_GUIStyle style;
 
 		void Awake()

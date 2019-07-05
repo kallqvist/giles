@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 
 namespace GILES.Interface
 {
@@ -8,9 +6,12 @@ namespace GILES.Interface
 	 * Field editor for Vector2 types.
 	 */
 	[pb_TypeInspector(typeof(Vector2))]
-	public class pb_Vector2Inspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_Vector2Inspector : pb_TypeInspector
 	{
-		Vector2 vector;
+#pragma warning restore IDE1006
+
+        Vector2 vector;
 
 		public UnityEngine.UI.Text title;
 
@@ -38,24 +39,20 @@ namespace GILES.Interface
 
 		public void OnValueChange_X(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				vector.x = v;
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                vector.x = v;
+                OnGUIChanged();
+            }
+        }
 
 		public void OnValueChange_Y(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				vector.y = v;
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                vector.y = v;
+                OnGUIChanged();
+            }
+        }
 	}
 }

@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using GILES.Interface;
 
 namespace GILES
 {
-	public class pb_FullInspectorButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_FullInspectorButton : pb_ToolbarButton
 	{
-		public override string tooltip { get { return "Show Full Inspector"; } }
+#pragma warning restore IDE1006
+
+        public override string Tooltip { get { return "Show Full Inspector"; } }
 
 		public pb_Inspector inspector;
 
@@ -27,7 +29,7 @@ namespace GILES
 		public void DoToggle()
 		{
 			inspector.showUnityComponents = !inspector.showUnityComponents;
-			inspector.RebuildInspector(pb_Selection.activeGameObject);
+			inspector.RebuildInspector(pb_Selection.ActiveGameObject);
 			UpdateColors();
 		}
 

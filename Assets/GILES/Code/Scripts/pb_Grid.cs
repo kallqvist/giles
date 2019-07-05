@@ -3,15 +3,16 @@
  */
 
 using UnityEngine;
-using System.Collections;
 
 namespace GILES
 {
 	[RequireComponent(typeof(MeshFilter))]
 	[RequireComponent(typeof(MeshRenderer))]
-	public class pb_Grid : MonoBehaviour
+#pragma warning disable IDE1006
+    public class pb_Grid : MonoBehaviour
 	{
-		[Tooltip("This script generates a grid mesh on load.")]
+#pragma warning restore IDE1006
+        [Tooltip("This script generates a grid mesh on load.")]
 
 		// Default to 10x10 grid
 		public int lines = 10;
@@ -69,13 +70,14 @@ namespace GILES
 				normals[i] = Vector3.up;
 			}
 
-			Mesh tm = new Mesh();
-
-			tm.name = "GridMesh";
-			tm.vertices = lines;
-			tm.normals = normals;
-			tm.subMeshCount = 1;
-			tm.SetIndices(indices, MeshTopology.Lines, 0);
+            Mesh tm = new Mesh
+            {
+                name = "GridMesh",
+                vertices = lines,
+                normals = normals,
+                subMeshCount = 1
+            };
+            tm.SetIndices(indices, MeshTopology.Lines, 0);
 			tm.uv = uv;
 
 			return tm;

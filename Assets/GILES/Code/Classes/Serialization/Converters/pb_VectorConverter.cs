@@ -1,25 +1,27 @@
 using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
-using System.Reflection;
 using System;
 using System.Linq;
 
 namespace GILES.Serialization
 {
-	/**
+    /**
 	 * JsonConverter override for serializing Vector{2,3,4} and Quaternion types from UnityEngine.
 	 */
-	public class pb_VectorConverter : JsonConverter
+#pragma warning disable IDE1006
+    public class pb_VectorConverter : JsonConverter
 	{
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+#pragma warning restore IDE1006
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
-			JObject o = new JObject();
+            JObject o = new JObject
+            {
+                { "$type", value.GetType().AssemblyQualifiedName }
+            };
 
-			o.Add("$type", value.GetType().AssemblyQualifiedName);
-
-			if( value is Vector2 )
+            if ( value is Vector2 )
 			{
 				o.Add("x", ((UnityEngine.Vector2)value).x);
 				o.Add("y", ((UnityEngine.Vector2)value).y);

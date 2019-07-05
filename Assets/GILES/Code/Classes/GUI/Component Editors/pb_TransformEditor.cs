@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 using GILES.Serialization;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Custom component editor for UnityEngine.Transform.
 	 */
-	public class pb_TransformEditor : pb_ComponentEditor
+#pragma warning disable IDE1006
+    public class pb_TransformEditor : pb_ComponentEditor
 	{
-		private Transform _transform;
+#pragma warning restore IDE1006
+
+        private Transform _transform;
 
 		protected override void InitializeGUI()
 		{
@@ -39,7 +40,7 @@ namespace GILES.Interface
 		{
 			if(Input.GetMouseButton(0))
 			{
-				if(pb_SelectionHandle.instance != null && pb_SelectionHandle.instance.InUse())
+				if(pb_SelectionHandle.Instance != null && pb_SelectionHandle.Instance.InUse())
 				{
 					UpdateGUI();
 				}

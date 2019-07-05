@@ -14,10 +14,12 @@ namespace GILES
 
 		public Hashtable RecordState()
 		{
-			Hashtable hash = new Hashtable();
-			hash.Add("target", target);
-			hash.Add("transform", new pb_Transform(target));
-			return hash;
+            Hashtable hash = new Hashtable
+            {
+                { "target", target },
+                { "transform", new pb_Transform(target) }
+            };
+            return hash;
 		}
 
 		public void ApplyState(Hashtable values)

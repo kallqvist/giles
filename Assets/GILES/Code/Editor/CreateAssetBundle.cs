@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System;
 using System.IO;
 using System.Linq;
-using GILES;
 
 namespace GILES.UnityEditor
 {
@@ -46,7 +44,8 @@ namespace GILES.UnityEditor
 
 					GameObject go = obj as GameObject;
 
-					if(go != null && PrefabUtility.GetPrefabType(go) == PrefabType.Prefab)
+                        // [05.07.2019] https://www.reddit.com/r/Unity3D/comments/a8u4c1/obsolete_functions_i_have_no_idea_how_to_replace/
+                        if (go != null && PrefabUtility.GetPrefabAssetType(go) == PrefabAssetType.Regular)
 					{
 						pb_MetaDataComponent metadata = go.GetComponent<pb_MetaDataComponent>();
 

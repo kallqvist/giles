@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
 using GILES.Interface;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Opens a file browser to select a level.
 	 */
-	public class pb_LoadSceneButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_LoadSceneButton : pb_ToolbarButton
 	{
-		public pb_FileDialog dialogPrefab;
+#pragma warning restore IDE1006
+        public pb_FileDialog dialogPrefab;
 
-		public override string tooltip { get { return "Open Existing Level"; } }
+		public override string Tooltip { get { return "Open Existing Level"; } }
 
 		/**
 		 * Open the load dialog.
@@ -20,8 +21,8 @@ namespace GILES
 		{
 			pb_FileDialog dlog = GameObject.Instantiate(dialogPrefab);
 			dlog.SetDirectory(System.IO.Directory.GetCurrentDirectory());
-			dlog.isFileBrowser = true;
-			dlog.filePattern = "*.json";
+			dlog.IsFileBrowser = true;
+			dlog.FilePattern = "*.json";
 			dlog.AddOnSaveListener(OnOpen);
 
 			pb_ModalWindow.SetContent(dlog.gameObject);

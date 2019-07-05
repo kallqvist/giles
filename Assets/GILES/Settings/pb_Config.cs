@@ -3,12 +3,14 @@ using System.Collections.Generic;
 
 namespace GILES
 {
-	/**
+    /**
 	 * General editor settings.
 	 */
-	public static class pb_Config
+#pragma warning disable IDE1006
+    public static class pb_Config
 	{
-		public const int ASSET_MENU_ORDER = 800;
+#pragma warning restore IDE1006
+        public const int ASSET_MENU_ORDER = 800;
 
 		/**
 		 * When saving and loading levels using the Resources folder, the following subfolders will
@@ -127,20 +129,6 @@ namespace GILES
 			typeof(UnityEngine.CanvasGroup),
 			typeof(UnityEngine.CanvasRenderer),
 			typeof(UnityEngine.TerrainCollider),
-			typeof(UnityEngine.Networking.Match.NetworkMatch),
-			typeof(UnityEngine.Networking.NetworkAnimator),
-			typeof(UnityEngine.Networking.NetworkBehaviour),
-			typeof(UnityEngine.Networking.NetworkDiscovery),
-			typeof(UnityEngine.Networking.NetworkIdentity),
-			typeof(UnityEngine.Networking.NetworkLobbyManager),
-			typeof(UnityEngine.Networking.NetworkLobbyPlayer),
-			typeof(UnityEngine.Networking.NetworkManager),
-			typeof(UnityEngine.Networking.NetworkManagerHUD),
-			typeof(UnityEngine.Networking.NetworkProximityChecker),
-			typeof(UnityEngine.Networking.NetworkStartPosition),
-			typeof(UnityEngine.Networking.NetworkTransformChild),
-			typeof(UnityEngine.Networking.NetworkTransform),
-			typeof(UnityEngine.Networking.NetworkTransformVisualizer),
 			typeof(UnityEngine.EventSystems.EventSystem),
 			typeof(UnityEngine.EventSystems.EventTrigger),
 			typeof(UnityEngine.EventSystems.UIBehaviour),

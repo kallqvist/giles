@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.UI;
 using System.Linq;
 
 namespace GILES.Interface
 {
 	[CanEditMultipleObjects, CustomEditor(typeof(pb_GUIStyleApplier))]
-	public class pb_GUIStyleApplierEditor : Editor
+#pragma warning disable IDE1006
+    public class pb_GUIStyleApplierEditor : Editor
 	{
-		SerializedProperty style;
+#pragma warning restore IDE1006
+        SerializedProperty style;
 		SerializedProperty ignore;
 
 		[SerializeField] bool show = true;

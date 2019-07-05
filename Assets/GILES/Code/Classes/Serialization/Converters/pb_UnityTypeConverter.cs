@@ -1,25 +1,24 @@
-using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
-using System.Reflection;
 using System;
-using System.Linq;
 
 namespace GILES.Serialization
 {
-	/**
+    /**
 	 * Creates a wrapper around a type when serializing so that the correct type converter is
 	 * called when deserializing.  Allows type requring a converter to be properly deserialized
 	 * when stored in a non-strongly-typed structure (Dictionary<string, object> for example).
 	 */
-	public abstract class pb_UnityTypeConverter<T> : JsonConverter
+#pragma warning disable IDE1006
+    public abstract class pb_UnityTypeConverter<T> : JsonConverter
 	{
-		/**
+#pragma warning restore IDE1006
+
+        /**
 		 * Wrap `value` in a `pb_ObjectContainer<T>` type in JSON.  Override `WriteObjectJson` to 
 		 * populate the value fields.
 		 */
-		public sealed override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public sealed override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			writer.WriteStartObject();
 			writer.WritePropertyName("$type");

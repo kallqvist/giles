@@ -3,14 +3,17 @@ using GILES.Interface;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Save the current scene to a file.  Opens the file browser and asks where to save if first time or SaveAs.
 	 */
-	public class pb_SaveSceneButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_SaveSceneButton : pb_ToolbarButton
 	{
-		public pb_FileDialog dialogPrefab;
+#pragma warning restore IDE1006
 
-		public override string tooltip { get { return "Save Scene"; } }
+        public pb_FileDialog dialogPrefab;
+
+		public override string Tooltip { get { return "Save Scene"; } }
 
 		/**
 		 * Open the save dialog.
@@ -19,8 +22,8 @@ namespace GILES
 		{
 			pb_FileDialog dlog = Instantiate(dialogPrefab);
 			dlog.SetDirectory(System.IO.Directory.GetCurrentDirectory());
-			dlog.isFileBrowser = true;
-			dlog.filePattern = "*.json";
+			dlog.IsFileBrowser = true;
+			dlog.FilePattern = "*.json";
 			dlog.AddOnSaveListener(OnSave);
 
 			pb_ModalWindow.SetContent(dlog.gameObject);

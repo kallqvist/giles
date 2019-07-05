@@ -1,33 +1,32 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Generic;
-
-namespace GILES
+﻿namespace GILES
 {
-	public class pb_ScaleToolButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_ScaleToolButton : pb_ToolbarButton
 	{
-		public override string tooltip { get { return "Scale Tool"; } }
+#pragma warning restore IDE1006
+
+        public override string Tooltip { get { return "Scale Tool"; } }
 
 		protected override void Start()
 		{
 			base.Start();
 
-			if(pb_SelectionHandle.instance.onHandleTypeChanged != null)
-				pb_SelectionHandle.instance.onHandleTypeChanged += OnHandleChange;
+			if(pb_SelectionHandle.Instance.onHandleTypeChanged != null)
+				pb_SelectionHandle.Instance.onHandleTypeChanged += OnHandleChange;
 			else
-				pb_SelectionHandle.instance.onHandleTypeChanged = OnHandleChange;
+				pb_SelectionHandle.Instance.onHandleTypeChanged = OnHandleChange;
 
 			OnHandleChange();
 		}
 
 		public void DoSetHandle()
 		{
-			pb_SelectionHandle.instance.SetTool(Tool.Scale);
+			pb_SelectionHandle.Instance.SetTool(Tool.Scale);
 		}
 
 		private void OnHandleChange()
 		{
-			interactable = !pb_SelectionHandle.instance.GetIsHidden() && pb_SelectionHandle.instance.GetTool() != Tool.Scale;
+			Interactable = !pb_SelectionHandle.Instance.GetIsHidden() && pb_SelectionHandle.Instance.GetTool() != Tool.Scale;
 		}
 	}
 }

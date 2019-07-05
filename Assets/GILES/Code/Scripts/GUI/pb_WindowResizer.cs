@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * GUI element that will resize the `window` rect when dragged.
 	 */
-	public class pb_WindowResizer : MonoBehaviour, IBeginDragHandler, IDragHandler
+#pragma warning disable IDE1006
+    public class pb_WindowResizer : MonoBehaviour, IBeginDragHandler, IDragHandler
 	{
-		public RectTransform window;
+#pragma warning restore IDE1006
+        public RectTransform window;
 
 		private Rect screenRect = new Rect(0,0,0,0);
 

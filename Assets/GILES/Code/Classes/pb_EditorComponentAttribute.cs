@@ -10,9 +10,12 @@ namespace GILES
 	 * \sa pb_Gizmo, pb_Highlight
 	 */
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-	public class pb_EditorComponentAttribute : Attribute
+#pragma warning disable IDE1006
+    public class pb_EditorComponentAttribute : Attribute
 	{
-		public static void StripEditorComponents(GameObject target)
+#pragma warning restore IDE1006
+
+        public static void StripEditorComponents(GameObject target)
 		{
 			foreach(Component component in target.GetComponents<Component>())
 			{

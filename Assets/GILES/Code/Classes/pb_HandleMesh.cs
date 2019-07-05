@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Static methods to build meshes necessary for the handle gizmos.
 	 */
-	public static class pb_HandleMesh
+#pragma warning disable IDE1006
+    public static class pb_HandleMesh
 	{
-		static readonly Color red = new Color(.85f, .256f, .16f, 0f);
+#pragma warning restore IDE1006
+
+        static readonly Color red = new Color(.85f, .256f, .16f, 0f);
 		static readonly Color green = new Color(.2f, .9f, .2f, 0f);
 		static readonly Color blue = new Color(.26f, .56f, .85f, 0f);
 
@@ -304,19 +307,13 @@ namespace GILES
 				t.Add(n+3);
 			}
 
-			// Now generate caps
-			Vector3[] cv, cn;
-			Vector2[] cu;
-			Color[] cc;
-			int[] ct;
-
-			Matrix4x4 _coneRightMatrix 		= Matrix4x4.TRS(Vector3.right * scale.x, Quaternion.Euler(90f, 90f, 0f), Vector3.one * capSize);
-			Matrix4x4 _coneUpMatrix 		= Matrix4x4.TRS(Vector3.up * scale.y, Quaternion.identity, Vector3.one * capSize);
+            Matrix4x4 _coneRightMatrix = Matrix4x4.TRS(Vector3.right * scale.x, Quaternion.Euler(90f, 90f, 0f), Vector3.one * capSize);
+            Matrix4x4 _coneUpMatrix 		= Matrix4x4.TRS(Vector3.up * scale.y, Quaternion.identity, Vector3.one * capSize);
 			Matrix4x4 _coneForwardMatrix 	= Matrix4x4.TRS(Vector3.forward * scale.z, Quaternion.Euler(90f, 0f, 0f), Vector3.one * capSize);
 
 			List<int> t2 = new List<int>();
 
-			TransformMesh(cap, _coneRightMatrix, out cv, out cn, out cu, out cc, out ct, v.Count, red);
+			TransformMesh(cap, _coneRightMatrix, out Vector3[] cv, out Vector3[] cn, out Vector2[] cu, out Color[] cc, out int[] ct, v.Count, red);
 			v.AddRange(cv);
 			c.AddRange(cc);
 			nrm.AddRange(cn);

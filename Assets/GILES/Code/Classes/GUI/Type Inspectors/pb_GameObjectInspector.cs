@@ -1,8 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace GILES.Interface
 {
@@ -10,9 +6,12 @@ namespace GILES.Interface
 	 * Field editor for GameObject types.
 	 */
 	[pb_TypeInspector(typeof(GameObject))]
-	public class pb_GameObjectInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_GameObjectInspector : pb_TypeInspector
 	{
-		GameObject value;
+#pragma warning restore IDE1006
+
+        GameObject value;
 
 		void OnGUIChanged()
 		{

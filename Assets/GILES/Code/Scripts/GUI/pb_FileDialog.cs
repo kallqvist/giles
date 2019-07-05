@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
-using GILES;
 using System.IO;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Implements a navigable directory window.
 	 * \sa pb_Window, pb_ModalWindow
 	 */
-	public class pb_FileDialog : MonoBehaviour 
+#pragma warning disable IDE1006
+    public class pb_FileDialog : MonoBehaviour 
 	{
-		/// Store the history of the back and forward buttons
-		private Stack<string> back = new Stack<string>();
+#pragma warning restore IDE1006
+        /// Store the history of the back and forward buttons
+        private Stack<string> back = new Stack<string>();
 		private Stack<string> forward = new Stack<string>();
 
 		/// Where to put current directory folder buttons.
@@ -43,12 +43,12 @@ namespace GILES.Interface
 
 		/// If true, files as well as folders will be displayed.  If false, only folders will be
 		/// shown.  This also affects the string returned by `OnSave` callback.
-		public bool isFileBrowser { get { return _isFileBrowser; } set { _isFileBrowser = value; UpdateDirectoryContents(); } }
+		public bool IsFileBrowser { get { return _isFileBrowser; } set { _isFileBrowser = value; UpdateDirectoryContents(); } }
 
 		private bool _isFileBrowser = false;
 
 		/// If `isFileBrowser` is true, this string my be used to filter file results (see https://msdn.microsoft.com/en-us/library/wz42302f(v=vs.110).aspx).
-		public string filePattern { get { return _filePattern; } set { _filePattern = value; UpdateDirectoryContents(); } }
+		public string FilePattern { get { return _filePattern; } set { _filePattern = value; UpdateDirectoryContents(); } }
 
 		private string _filePattern = "";
 
@@ -163,9 +163,9 @@ namespace GILES.Interface
 				}
 			}
 
-			if(isFileBrowser)
+			if(IsFileBrowser)
 			{
-				children = Directory.GetFiles(currentDirectory, string.IsNullOrEmpty(filePattern) ? "*" : filePattern);
+				children = Directory.GetFiles(currentDirectory, string.IsNullOrEmpty(FilePattern) ? "*" : FilePattern);
 
 				for(int n = 0; n < children.Length; n++)
 				{
@@ -247,10 +247,9 @@ namespace GILES.Interface
 		 */
 		public void Cancel()
 		{
-			if(OnCancel != null)
-				OnCancel();
+            OnCancel?.Invoke();
 
-			pb_ModalWindow.Hide();
+            pb_ModalWindow.Hide();
 		}
 
 		/**

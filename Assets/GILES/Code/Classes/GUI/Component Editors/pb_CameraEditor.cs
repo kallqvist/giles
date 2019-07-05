@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 using GILES.Serialization;
 
 namespace GILES.Interface
 {
-	public class pb_CameraEditor : pb_ComponentEditor
+#pragma warning disable IDE1006
+    public class pb_CameraEditor : pb_ComponentEditor
 	{
-		private Camera _camera;
+#pragma warning restore IDE1006
+
+        private Camera _camera;
 
 		protected override void InitializeGUI()
 		{

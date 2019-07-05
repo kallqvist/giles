@@ -1,29 +1,34 @@
-using UnityEngine;
 using System.Runtime.Serialization;
 
 namespace GILES.Serialization
 {
-	/**
+    /**
 	 * Defines a interface that allows for pb_ObjectContainer types to be treated as anonymous.
 	 */
-	public interface pb_ObjectWrapper
+#pragma warning disable IDE1006
+    public interface pb_ObjectWrapper
 	{
-		/**
+#pragma warning restore IDE1006
+
+        /**
 		 * Return the contained value (actual type as defined by T).
 		 */
-		object GetValue();
+        object GetValue();
 	}
 
-	/**
+    /**
 	 * Json.Net when deserializing arrays or child objects will not invoke custom converters
 	 * because Deserialize<T> is called with `object` as the type, not the correct type.  By
 	 * storing custom classes in container objects with strongly typed properties it is
 	 * possible to circumvent this restriction.
 	 */
-	public class pb_ObjectContainer<T> : ISerializable, pb_ObjectWrapper
+#pragma warning disable IDE1006
+    public class pb_ObjectContainer<T> : ISerializable, pb_ObjectWrapper
 	{
-		/// The value to be serialized.
-		public T value;
+#pragma warning restore IDE1006
+
+        /// The value to be serialized.
+        public T value;
 
 		/**
 		 * Create a new container object with T type.

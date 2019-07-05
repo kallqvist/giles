@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.EventSystems;
-using GILES;
 
 namespace GILES.Interface
 {
-	public class pb_DraggablePanel : MonoBehaviour, IBeginDragHandler, IDragHandler
+#pragma warning disable IDE1006
+    public class pb_DraggablePanel : MonoBehaviour, IBeginDragHandler, IDragHandler
 	{
-		Rect screenRect = new Rect(0,0,0,0);
+#pragma warning restore IDE1006
+        Rect screenRect = new Rect(0,0,0,0);
 
 		/// The root gameobject of this window.
 		public RectTransform windowParent;

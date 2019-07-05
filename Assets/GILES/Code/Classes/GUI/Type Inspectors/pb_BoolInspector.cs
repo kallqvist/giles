@@ -1,16 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
-
-namespace GILES.Interface
+﻿namespace GILES.Interface
 {
 	/**
 	 * Field editor for boolean types.
 	 */
 	[pb_TypeInspector(typeof(bool))]
-	public class pb_BoolInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_BoolInspector : pb_TypeInspector
 	{
-		bool value;
+#pragma warning restore IDE1006
+
+        bool value;
 
 		public UnityEngine.UI.Text title;
 		public UnityEngine.UI.Toggle input;

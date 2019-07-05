@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
-using GILES.Serialization;
 
 namespace GILES.Interface
 {
-	public class pb_meshColliderEditor : pb_ComponentEditor
+#pragma warning disable IDE1006
+
+    public class pb_meshColliderEditor : pb_ComponentEditor
 	{
-		private MeshCollider _meshCollider;
+#pragma warning restore IDE1006
+
+        private MeshCollider _meshCollider;
 
 		protected override void InitializeGUI()
 		{

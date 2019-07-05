@@ -1,15 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace GILES
+﻿namespace GILES
 {
-	public class pb_NewSceneButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_NewSceneButton : pb_ToolbarButton
 	{
-		public override string tooltip { get { return "Discard changes and open new scene"; } }
+#pragma warning restore IDE1006
+
+        public override string Tooltip { get { return "Discard changes and open new scene"; } }
 
 		public void OpenNewScene()
 		{
-			pb_Scene.instance.Clear();
+			pb_Scene.Instance.Clear();
 		}
 	}
 }

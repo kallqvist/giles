@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 using GILES.Serialization;
 
 namespace GILES.Interface
 {
-	public class pb_MeshRendererEditor : pb_ComponentEditor
+#pragma warning disable IDE1006
+
+    public class pb_MeshRendererEditor : pb_ComponentEditor
 	{
-		private MeshRenderer _meshRenderer;
+#pragma warning restore IDE1006
+
+        private MeshRenderer _meshRenderer;
 
 		protected override void InitializeGUI()
 		{

@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Reflection;
 
 namespace GILES.Interface
 {
@@ -8,9 +6,12 @@ namespace GILES.Interface
 	 * Field editor for Color types.
 	 */
 	[pb_TypeInspector(typeof(Color))]
-	public class pb_ColorInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_ColorInspector : pb_TypeInspector
 	{
-		Color value;
+#pragma warning restore IDE1006
+
+        Color value;
 
 		public UnityEngine.UI.Text title;
 
@@ -47,54 +48,47 @@ namespace GILES.Interface
 
 		public void OnValueChange_R(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				value.r = Mathf.Clamp(v, 0f, 1f);
-				if(v < 0f || v > 1f)
-					input_r.text = value.r.ToString("g");
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                value.r = Mathf.Clamp(v, 0f, 1f);
+                if (v < 0f || v > 1f)
+                    input_r.text = value.r.ToString("g");
+                OnGUIChanged();
+            }
+        }
 
 		public void OnValueChange_G(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				value.g = Mathf.Clamp(v, 0f, 1f);
-				if(v < 0f || v > 1f)
-					input_g.text = value.g.ToString("g");
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                value.g = Mathf.Clamp(v, 0f, 1f);
+                if (v < 0f || v > 1f)
+                    input_g.text = value.g.ToString("g");
+                OnGUIChanged();
+            }
+        }
 
 		public void OnValueChange_B(string val)
 		{
-			float v;
 
-			if(float.TryParse(val, out v))
-			{
-				value.b = Mathf.Clamp(v, 0f, 1f);
-				if(v < 0f || v > 1f)
-					input_b.text = value.b.ToString("g");
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                value.b = Mathf.Clamp(v, 0f, 1f);
+                if (v < 0f || v > 1f)
+                    input_b.text = value.b.ToString("g");
+                OnGUIChanged();
+            }
+        }
 
 		public void OnValueChange_A(string val)
 		{
-			float v;
-
-			if(float.TryParse(val, out v))
-			{
-				value.a = Mathf.Clamp(v, 0f, 1f);
-				if(v < 0f || v > 1f)
-					input_a.text = value.a.ToString("g");
-				OnGUIChanged();
-			}
-		}
+            if (float.TryParse(val, out float v))
+            {
+                value.a = Mathf.Clamp(v, 0f, 1f);
+                if (v < 0f || v > 1f)
+                    input_a.text = value.a.ToString("g");
+                OnGUIChanged();
+            }
+        }
 	}
 }

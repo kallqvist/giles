@@ -4,23 +4,25 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using GILES.Serialization;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Helper class for working with reflection.  Automates some common functionality like
 	 * extracting/applying properties and fields.
 	 */
-	public static class pb_Reflection
+#pragma warning disable IDE1006
+    public static class pb_Reflection
 	{
-		/**
+#pragma warning restore IDE1006
+
+        /**
 		 * Return a PropertyInfo collection where each entry is checked against IsSpecialName and HasIgnoredAttribute.
 		 */
-		public static IEnumerable<PropertyInfo> GetSerializableProperties(Type type, BindingFlags flags)
+        public static IEnumerable<PropertyInfo> GetSerializableProperties(Type type, BindingFlags flags)
 		{
 			// check that:
 			// 	- setter exists
@@ -139,7 +141,7 @@ namespace GILES
 		public static T GetValue<T>(object obj, string name, BindingFlags flags)
 		{
 			if(obj == null)
-				return default(T);
+				return default;
 
 			PropertyInfo prop = obj.GetType().GetProperty(name, flags);
 
@@ -151,7 +153,7 @@ namespace GILES
 			if(field != null)
 				return (T) field.GetValue(obj);
 
-			return default(T);
+			return default;
 		}
 
 		public static bool SetValue(object obj, string name, object value)

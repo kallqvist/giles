@@ -1,16 +1,17 @@
 using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
-using System.Reflection;
 using System;
 using System.Linq;
 
 namespace GILES.Serialization
 {
-	public class pb_MaterialConverter : pb_UnityTypeConverter<Material>
+#pragma warning disable IDE1006
+    public class pb_MaterialConverter : pb_UnityTypeConverter<Material>
 	{
-		public override void WriteObjectJson(JsonWriter writer, object value, JsonSerializer serializer)
+#pragma warning restore IDE1006
+
+        public override void WriteObjectJson(JsonWriter writer, object value, JsonSerializer serializer)
 	    {
 	    	JObject o = new JObject();
 
@@ -30,10 +31,12 @@ namespace GILES.Serialization
 	    		string name = obj.GetValue("name").ToObject<string>();
 	    		string shader = obj.GetValue("shader").ToObject<string>();
 
-	    		Material mat = new Material(Shader.Find(shader));
-	    		mat.name = name;
-	    		
-	    		return mat;
+                Material mat = new Material(Shader.Find(shader))
+                {
+                    name = name
+                };
+
+                return mat;
 	    	}
 	    	catch
 	    	{

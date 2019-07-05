@@ -7,10 +7,13 @@ namespace GILES
 	 * and load assets from AssetBundles.
 	 */
 	[System.Serializable]
-	public class pb_AssetBundlePath : ISerializable
+#pragma warning disable IDE1006
+    public class pb_AssetBundlePath : ISerializable
 	{
-		/// The name of an asset bundle (as set in the Unity Editor).
-		public string assetBundleName;
+#pragma warning restore IDE1006
+
+        /// The name of an asset bundle (as set in the Unity Editor).
+        public string assetBundleName;
 		
 		/// The path to the asset within the AssetBundle.  Usually this will be set by the CreateAssetBundles 
 		/// editor tool.

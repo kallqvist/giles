@@ -5,9 +5,11 @@ using System.IO;
 
 namespace GILES.Interface
 {
-	public class pb_SaveDialogButton : Button
+#pragma warning disable IDE1006
+    public class pb_SaveDialogButton : Button
 	{
-		public string path;
+#pragma warning restore IDE1006
+        public string path;
 		public Callback<string> OnClick;
 
 		public void SetDelegateAndPath(Callback<string> del, string path)

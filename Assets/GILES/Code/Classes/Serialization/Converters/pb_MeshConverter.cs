@@ -1,19 +1,20 @@
 using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
-using System.Reflection;
 using System;
 using System.Linq;
 
 namespace GILES.Serialization
 {
-	/**
+    /**
 	 * Json.NET converter override for UnityEngine.Mesh type.
 	 */
-	public class pb_MeshConverter : pb_UnityTypeConverter<Mesh>
+#pragma warning disable IDE1006
+    public class pb_MeshConverter : pb_UnityTypeConverter<Mesh>
 	{
-		public override void WriteObjectJson(JsonWriter writer, object value, JsonSerializer serializer)
+#pragma warning restore IDE1006
+
+        public override void WriteObjectJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			JObject o = new JObject();
 

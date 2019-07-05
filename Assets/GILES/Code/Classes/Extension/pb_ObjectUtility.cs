@@ -3,12 +3,15 @@ using System.Collections;
 
 namespace GILES
 {
-	public static class pb_ObjectUtility
+#pragma warning disable IDE1006
+    public static class pb_ObjectUtility
 	{
-		/**
+#pragma warning restore IDE1006
+
+        /**
 		 * Add an empty gameObject as a child to `go`.
 		 */
-		public static GameObject AddChild(this GameObject go)
+        public static GameObject AddChild(this GameObject go)
 		{
 			GameObject child = new GameObject();
 			child.transform.SetParent(go.transform);

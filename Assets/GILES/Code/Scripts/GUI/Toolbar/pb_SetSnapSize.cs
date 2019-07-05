@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections;
 
 namespace GILES
 {
-	public class pb_SetSnapSize : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_SetSnapSize : pb_ToolbarButton
 	{
-		public override string tooltip { get { return "Set the snap increment"; } }
+#pragma warning restore IDE1006
+        public override string Tooltip { get { return "Set the snap increment"; } }
 
 		Dropdown dropdown;
 

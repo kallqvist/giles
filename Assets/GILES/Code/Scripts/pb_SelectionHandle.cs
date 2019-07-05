@@ -1,27 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace GILES
 {
-/**
- *	A selection handle for translation, rotation, and scale.
- *  @todo Document and clean up
- */
-public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
+    /**
+     *	A selection handle for translation, rotation, and scale.
+     *  @todo Document and clean up
+     */
+
+#pragma warning disable IDE1006
+    public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 {
+#pragma warning restore IDE1006
+
 #region Member
 
-	public static float positionSnapValue = 1f;
+    public static float positionSnapValue = 1f;
 	public static float scaleSnapValue = .1f;
 	public static float rotationSnapValue = 15f;
 
-	private Transform _trs;
-	private Transform trs { get { if(_trs == null) _trs = gameObject.GetComponent<Transform>(); return _trs; } }
-	private Camera _cam;
-	private Camera cam { get { if(_cam == null) _cam = Camera.main; return _cam; } }
+    private Transform _trs;
+    private Transform Trs { get { if(_trs == null) _trs = gameObject.GetComponent<Transform>(); return _trs; } }
 
-	const int MAX_DISTANCE_TO_HANDLE = 15;
+    private Camera _cam;
+	private Camera Cam { get { if(_cam == null) _cam = Camera.main; return _cam; } }
+
+    const int MAX_DISTANCE_TO_HANDLE = 15;
 
 	static Mesh _HandleLineMesh = null, _HandleTriangleMesh = null;
 
@@ -80,7 +84,7 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 	private Tool tool = Tool.Position;	// Current tool.
 		
-	private Mesh _coneRight, _coneUp, _coneForward;
+	private readonly Mesh _coneRight, _coneUp, _coneForward;
 
 	const float CAP_SIZE = .07f;
 
@@ -89,13 +93,13 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 	public Callback onHandleTypeChanged = null;
 
 	private Vector2 mouseOrigin = Vector2.zero;
-	public bool draggingHandle { get; private set; }
+	public bool DraggingHandle { get; private set; }
 	private int draggingAxes = 0;	// In how many directions is the handle able to move
 	private Vector3 scale = Vector3.one;
 	private pb_Transform handleOrigin = pb_Transform.identity;
 
-	public bool isHidden { get; private set; }
-	public bool InUse() { return draggingHandle; }
+	public bool IsHidden { get; private set; }
+	public bool InUse() { return DraggingHandle; }
 
 #endregion
 
@@ -118,9 +122,9 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 	public void SetTRS(Vector3 position, Quaternion rotation, Vector3 scale)
 	{
-		trs.position = position;
-		trs.localRotation = rotation;
-		trs.localScale = scale;
+		Trs.position = position;
+		Trs.localRotation = rotation;
+		Trs.localScale = scale;
 
 		RebuildGizmoMatrix();
 	}
@@ -170,7 +174,7 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 	
 	void Update()
 	{
-		if( isHidden )
+		if( IsHidden )
 		{
 			return;
 		}
@@ -180,7 +184,7 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 			OnMouseDown();
 		}
 
-		if( draggingHandle )
+		if( DraggingHandle )
 		{
 			if( Input.GetKey(KeyCode.LeftAlt) )
 				OnFinishHandleMovement();
@@ -190,19 +194,19 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 			Color col = new Color(Mathf.Abs(drag.axis.x), Mathf.Abs(drag.axis.y), Mathf.Abs(drag.axis.z), 1f);
 			float lineTime = 0f;
 			Debug.DrawRay(drag.origin, dir * 1f, col, lineTime, false);
-			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (trs.up * .1f), col, lineTime, false);
-			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (trs.forward * .1f), col, lineTime, false);
-			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (trs.right * .1f), col, lineTime, false);
-			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (-trs.up * .1f), col, lineTime, false);
-			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (-trs.forward * .1f), col, lineTime, false);
-			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (-trs.right * .1f), col, lineTime, false);
+			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (Trs.up * .1f), col, lineTime, false);
+			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (Trs.forward * .1f), col, lineTime, false);
+			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (Trs.right * .1f), col, lineTime, false);
+			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (-Trs.up * .1f), col, lineTime, false);
+			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (-Trs.forward * .1f), col, lineTime, false);
+			Debug.DrawLine(drag.origin + dir, (drag.origin + dir * .9f) + (-Trs.right * .1f), col, lineTime, false);
 
 			Debug.DrawLine(drag.origin, drag.origin + drag.mouse, Color.red, lineTime, false);
 			Debug.DrawLine(drag.origin, drag.origin + drag.cross, Color.black, lineTime, false);
 #endif
 			}
 
-		if( Input.GetMouseButton(0) && draggingHandle )
+		if( Input.GetMouseButton(0) && DraggingHandle )
 		{
 			Vector3 a = Vector3.zero;
 
@@ -210,14 +214,12 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 			if( draggingAxes < 2 && tool != Tool.Rotate )
 			{
-				Vector3 b;
-				valid = pb_HandleUtility.PointOnLine( new Ray(trs.position, drag.axis), cam.ScreenPointToRay(Input.mousePosition), out a, out b);
+				valid = pb_HandleUtility.PointOnLine( new Ray(Trs.position, drag.axis), Cam.ScreenPointToRay(Input.mousePosition), out a, out Vector3 b);
 			}
 			else
 			{
-				Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-				float hit = 0f;
-				if( drag.plane.Raycast(ray, out hit) )
+				Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
+				if( drag.plane.Raycast(ray, out float hit) )
 				{
 					a = ray.GetPoint(hit);
 					valid = true;
@@ -226,13 +228,13 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 			if( valid )
 			{
-				drag.origin = trs.position;
+				drag.origin = Trs.position;
 
 				switch( tool )
 				{
 					case Tool.Position:
 					{
-						trs.position = pb_Snap.Snap(a - drag.offset, positionSnapValue);
+						Trs.position = pb_Snap.Snap(a - drag.offset, positionSnapValue);
 					}
 					break;
 
@@ -240,9 +242,9 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 					{
 						Vector2 delta = (Vector2)Input.mousePosition - mouseOrigin;
 						mouseOrigin = Input.mousePosition;
-						float sign = pb_HandleUtility.CalcMouseDeltaSignWithAxes(cam, drag.origin, drag.axis, drag.cross, delta);
+						float sign = pb_HandleUtility.CalcMouseDeltaSignWithAxes(Cam, drag.origin, drag.axis, drag.cross, delta);
 						axisAngle += delta.magnitude * sign;
-						trs.localRotation = Quaternion.AngleAxis(pb_Snap.Snap(axisAngle, rotationSnapValue), drag.axis) * handleOrigin.rotation;// trs.localRotation;
+						Trs.localRotation = Quaternion.AngleAxis(pb_Snap.Snap(axisAngle, rotationSnapValue), drag.axis) * handleOrigin.Rotation;// trs.localRotation;
 					}
 					break;
 
@@ -252,11 +254,11 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 						if(draggingAxes > 1)
 						{
-							v = SetUniformMagnitude( ((a - drag.offset) - trs.position) );
+							v = SetUniformMagnitude( ((a - drag.offset) - Trs.position) );
 						}
 						else
 						{
-							v = Quaternion.Inverse(handleOrigin.rotation) * ((a - drag.offset) - trs.position);
+							v = Quaternion.Inverse(handleOrigin.Rotation) * ((a - drag.offset) - Trs.position);
 						}
 
 						v += Vector3.one;
@@ -266,10 +268,9 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 					break;
 				}
 
-				if( OnHandleMove != null )
-					OnHandleMove( GetTransform() );
+                OnHandleMove?.Invoke(GetTransform());
 
-				RebuildGizmoMatrix();
+                RebuildGizmoMatrix();
 			}
 		}
 
@@ -299,79 +300,72 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 	{
 		scale = Vector3.one;
 
-		Vector3 a, b;
 		drag.offset = Vector3.zero;		
-		Axis plane;
 
 		axisAngle = 0f;
 
-		draggingHandle = CheckHandleActivated(Input.mousePosition, out plane);
+		DraggingHandle = CheckHandleActivated(Input.mousePosition, out Axis plane);
 
 		mouseOrigin = Input.mousePosition;
-		handleOrigin.SetTRS(trs);
+		handleOrigin.SetTRS(Trs);
 
 		drag.axis = Vector3.zero;
 		draggingAxes = 0;
 
-		if( draggingHandle )
+		if( DraggingHandle )
 		{
-			Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+			Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
 
 			if( (plane & Axis.X) == Axis.X )
 			{
 				draggingAxes++;
-				drag.axis = trs.right;
-				drag.plane.SetNormalAndPosition(trs.right.normalized, trs.position);
+				drag.axis = Trs.right;
+				drag.plane.SetNormalAndPosition(Trs.right.normalized, Trs.position);
 			}
 
 			if( (plane & Axis.Y) == Axis.Y )
 			{
 				draggingAxes++;
 				if(draggingAxes > 1)
-					drag.plane.SetNormalAndPosition(Vector3.Cross(drag.axis, trs.up).normalized, trs.position);
+					drag.plane.SetNormalAndPosition(Vector3.Cross(drag.axis, Trs.up).normalized, Trs.position);
 				else
-					drag.plane.SetNormalAndPosition(trs.up.normalized, trs.position);
-				drag.axis += trs.up;
+					drag.plane.SetNormalAndPosition(Trs.up.normalized, Trs.position);
+				drag.axis += Trs.up;
 			}
 
 			if( (plane & Axis.Z) == Axis.Z )
 			{
 				draggingAxes++;
 				if(draggingAxes > 1)
-					drag.plane.SetNormalAndPosition(Vector3.Cross(drag.axis, trs.forward).normalized, trs.position);
+					drag.plane.SetNormalAndPosition(Vector3.Cross(drag.axis, Trs.forward).normalized, Trs.position);
 				else
-					drag.plane.SetNormalAndPosition(trs.forward.normalized, trs.position);
-				drag.axis += trs.forward;
+					drag.plane.SetNormalAndPosition(Trs.forward.normalized, Trs.position);
+				drag.axis += Trs.forward;
 			}
 
 			if( draggingAxes < 2 )
 			{
-				if( pb_HandleUtility.PointOnLine(new Ray(trs.position, drag.axis), ray, out a, out b) )
-					drag.offset = a - trs.position;
+				if( pb_HandleUtility.PointOnLine(new Ray(Trs.position, drag.axis), ray, out Vector3 a, out Vector3 b) )
+					drag.offset = a - Trs.position;
 
-				float hit = 0f;
-
-				if( drag.plane.Raycast(ray, out hit) )
+				if( drag.plane.Raycast(ray, out float hit) )
 				{
-					drag.mouse = (ray.GetPoint(hit) - trs.position).normalized;
+					drag.mouse = (ray.GetPoint(hit) - Trs.position).normalized;
 					drag.cross = Vector3.Cross(drag.axis, drag.mouse);
 				}
 			}
 			else
 			{
-				float hit = 0f;
-
-				if( drag.plane.Raycast(ray, out hit) )
+				if( drag.plane.Raycast(ray, out float hit) )
 				{
-					drag.offset = ray.GetPoint(hit) - trs.position;
-					drag.mouse = (ray.GetPoint(hit) - trs.position).normalized;
+					drag.offset = ray.GetPoint(hit) - Trs.position;
+					drag.mouse = (ray.GetPoint(hit) - Trs.position).normalized;
 					drag.cross = Vector3.Cross(drag.axis, drag.mouse);
 				}
 			}
 
-			if( OnHandleBegin != null )
-				OnHandleBegin( GetTransform() );
-		}
+            OnHandleBegin?.Invoke(GetTransform());
+        }
 	}
 
 	void OnFinishHandleMovement()
@@ -379,22 +373,21 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 		RebuildGizmoMesh(Vector3.one);
 		RebuildGizmoMatrix();
 
-		if( OnHandleFinish != null )
-			OnHandleFinish();
+        OnHandleFinish?.Invoke();
 
-		StartCoroutine( SetDraggingFalse() );
+        StartCoroutine( SetDraggingFalse() );
 	}
 
 	IEnumerator SetDraggingFalse()
 	{
 		yield return new WaitForEndOfFrame();
-		draggingHandle = false;
+		DraggingHandle = false;
 	}
 #endregion
 
 #region Interface
 
-	Vector2 screenToGUIPoint(Vector2 v)
+	Vector2 ScreenToGUIPoint(Vector2 v)
 	{
 		v.y = Screen.height - v.y;
 		return v;
@@ -403,8 +396,8 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 	public pb_Transform GetTransform()
 	{
 		return new pb_Transform(
-			trs.position,
-			trs.localRotation,
+			Trs.position,
+			Trs.localRotation,
 			scale);
 	}
 
@@ -414,23 +407,23 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 		if( tool == Tool.Position || tool == Tool.Scale )
 		{
-			float sceneHandleSize = pb_HandleUtility.GetHandleSize(trs.position);
+			float sceneHandleSize = pb_HandleUtility.GetHandleSize(Trs.position);
 
 			// cen
-			Vector2 cen = cam.WorldToScreenPoint( trs.position );
+			Vector2 cen = Cam.WorldToScreenPoint( Trs.position );
 
 			// up
-			Vector2 up = cam.WorldToScreenPoint( (trs.position + (trs.up + trs.up * CAP_SIZE * 4f) * (sceneHandleSize * HandleSize)) );
+			Vector2 up = Cam.WorldToScreenPoint( (Trs.position + (Trs.up + Trs.up * CAP_SIZE * 4f) * (sceneHandleSize * HandleSize)) );
 
 			// right
-			Vector2 right = cam.WorldToScreenPoint( (trs.position + (trs.right + trs.right * CAP_SIZE * 4f) * (sceneHandleSize * HandleSize)) );
+			Vector2 right = Cam.WorldToScreenPoint( (Trs.position + (Trs.right + Trs.right * CAP_SIZE * 4f) * (sceneHandleSize * HandleSize)) );
 
 			// forward
-			Vector2 forward = cam.WorldToScreenPoint( (trs.position + (trs.forward + trs.forward * CAP_SIZE * 4f) * (sceneHandleSize * HandleSize)) );
+			Vector2 forward = Cam.WorldToScreenPoint( (Trs.position + (Trs.forward + Trs.forward * CAP_SIZE * 4f) * (sceneHandleSize * HandleSize)) );
 
 			// First check if the plane boxes have been activated
 
-			Vector3 cameraMask = pb_HandleUtility.DirectionMask(trs, cam.transform.forward);
+			Vector3 cameraMask = pb_HandleUtility.DirectionMask(Trs, Cam.transform.forward);
 
 			Vector2 p_right = (cen + ((right-cen) * cameraMask.x) * HANDLE_BOX_SIZE);
 			Vector2 p_up = (cen + ((up-cen) * cameraMask.y) * HANDLE_BOX_SIZE);
@@ -483,18 +476,18 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 			for(int i = 0; i < 3; i++)
 			{
-				cur = cam.WorldToScreenPoint(vertices[i][0]);
+				cur = Cam.WorldToScreenPoint(vertices[i][0]);
 
 				for(int n = 0; n < vertices[i].Length-1; n++)
 				{
 					prev = cur;
-					cur = cam.WorldToScreenPoint( handleMatrix.MultiplyPoint3x4(vertices[i][n+1]) );
+					cur = Cam.WorldToScreenPoint( handleMatrix.MultiplyPoint3x4(vertices[i][n+1]) );
 
 					float dist = pb_HandleUtility.DistancePointLineSegment(mousePosition, prev, cur);
 
 					if( dist < best && dist < MAX_DISTANCE_TO_HANDLE )
 					{
-						Vector3 viewDir = (handleMatrix.MultiplyPoint3x4((vertices[i][n] + vertices[i][n+1]) * .5f) - cam.transform.position).normalized;
+						Vector3 viewDir = (handleMatrix.MultiplyPoint3x4((vertices[i][n] + vertices[i][n+1]) * .5f) - Cam.transform.position).normalized;
 						Vector3 nrm = transform.TransformDirection(vertices[i][n]).normalized;
 
 						if(Vector3.Dot(nrm, viewDir) > .5f)
@@ -536,7 +529,7 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 	void OnRenderObject()
 	{	
-		if(isHidden || Camera.current != cam)
+		if(IsHidden || Camera.current != Cam)
 			return;
 
 		switch(tool)
@@ -560,7 +553,7 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 	void RebuildGizmoMatrix()
 	{
-		float handleSize = pb_HandleUtility.GetHandleSize(trs.position);
+		float handleSize = pb_HandleUtility.GetHandleSize(Trs.position);
 		Matrix4x4 scale = Matrix4x4.Scale(Vector3.one * handleSize * HandleSize);
 
  		handleMatrix = transform.localToWorldMatrix * scale;
@@ -588,9 +581,8 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 			this.tool = tool;
 			RebuildGizmoMesh(Vector3.one);
 
-			if(onHandleTypeChanged != null)
-				onHandleTypeChanged();
-		}
+            onHandleTypeChanged?.Invoke();
+        }
 	}
 
 	public Tool GetTool()
@@ -600,16 +592,15 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 
 	public void SetIsHidden(bool isHidden)
 	{
-		draggingHandle = false;
-		this.isHidden = isHidden;
+		DraggingHandle = false;
+		this.IsHidden = isHidden;
 
-		if(onHandleTypeChanged != null)
-			onHandleTypeChanged();
-	}
+        onHandleTypeChanged?.Invoke();
+    }
 
 	public bool GetIsHidden()
 	{
-		return this.isHidden;
+		return this.IsHidden;
 	}
 
 #endregion
@@ -624,7 +615,7 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 		{
 			case Tool.Position:
 			case Tool.Scale:
-				pb_HandleMesh.CreatePositionLineMesh(ref mesh, trs, scale, cam, HANDLE_BOX_SIZE);
+				pb_HandleMesh.CreatePositionLineMesh(ref mesh, Trs, scale, Cam, HANDLE_BOX_SIZE);
 				break;
 
 			case Tool.Rotate:
@@ -639,9 +630,9 @@ public class pb_SelectionHandle : pb_MonoBehaviourSingleton<pb_SelectionHandle>
 	private void CreateHandleTriangleMesh(ref Mesh mesh, Vector3 scale)
 	{
 		if( tool == Tool.Position )
-			pb_HandleMesh.CreateTriangleMesh(ref mesh, trs, scale, cam, ConeMesh, HANDLE_BOX_SIZE, CAP_SIZE);
+			pb_HandleMesh.CreateTriangleMesh(ref mesh, Trs, scale, Cam, ConeMesh, HANDLE_BOX_SIZE, CAP_SIZE);
 		else if( tool == Tool.Scale )
-			pb_HandleMesh.CreateTriangleMesh(ref mesh, trs, scale, cam, CubeMesh, HANDLE_BOX_SIZE, CAP_SIZE);
+			pb_HandleMesh.CreateTriangleMesh(ref mesh, Trs, scale, Cam, CubeMesh, HANDLE_BOX_SIZE, CAP_SIZE);
 	}
 
 #endregion

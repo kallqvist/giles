@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace GILES
 {
@@ -7,9 +6,12 @@ namespace GILES
 	 * Draw a few arrows pointing in the direction that this light is facing.
 	 */
 	[pb_Gizmo(typeof(Light))]
-	public class pb_Gizmo_Light : pb_Gizmo
+#pragma warning disable IDE1006
+    public class pb_Gizmo_Light : pb_Gizmo
 	{
-		public Material lightRayMaterial;
+#pragma warning restore IDE1006
+
+        public Material lightRayMaterial;
 		private Light lightComponent;
 		private Mesh _lightMesh;
 
@@ -17,7 +19,7 @@ namespace GILES
 
 		Matrix4x4 gizmoMatrix = Matrix4x4.identity;
 
-		private Mesh lightMesh
+		private Mesh LightMesh
 		{
 			get
 			{
@@ -61,7 +63,7 @@ namespace GILES
 		{
 			if(_lightMesh != null)
 			{
-				pb_ObjectUtility.Destroy(lightMesh);
+				pb_ObjectUtility.Destroy(LightMesh);
 				_lightMesh = null;
 			}
 
@@ -87,7 +89,7 @@ namespace GILES
 			if(!isSelected)
 				return;
 
-			if(lightMesh == null || lightComponent == null)
+			if(LightMesh == null || lightComponent == null)
 				return;
 
 			switch(lightComponent.type)
@@ -104,8 +106,8 @@ namespace GILES
 					break;
 			}
 
-			for(int i = 0; i < lightMesh.subMeshCount; i++)
-				Graphics.DrawMesh(lightMesh, gizmoMatrix, lightRayMaterial, 0, null, i, null, false, false);
+			for(int i = 0; i < LightMesh.subMeshCount; i++)
+				Graphics.DrawMesh(LightMesh, gizmoMatrix, lightRayMaterial, 0, null, i, null, false, false);
 		}
 
 		public override void OnComponentModified()

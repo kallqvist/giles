@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using System.Linq;
-using Newtonsoft.Json;
 using GILES.Serialization;
 
 namespace GILES
@@ -11,10 +10,13 @@ namespace GILES
 	 */
 	[pb_JsonIgnore]
 	[pb_EditorComponent]
-	public abstract class pb_Gizmo : MonoBehaviour
+#pragma warning disable IDE1006
+    public abstract class pb_Gizmo : MonoBehaviour
 	{
-		/// The icon to be rendered facing the camera at the position of this object.
-		public Material icon;
+#pragma warning restore IDE1006
+
+        /// The icon to be rendered facing the camera at the position of this object.
+        public Material icon;
 
 		/// A reference to the main camera transform.
 		protected Transform cam;
@@ -23,13 +25,13 @@ namespace GILES
 		protected Transform trs;
 
 		/// Matrix with a camera facing rotation, world position of parent transform, and scale of 1.
-		protected Matrix4x4 cameraFacingMatrix { get { return _cameraFacingMatrix; }}
+		protected Matrix4x4 CameraFacingMatrix { get { return _cameraFacingMatrix; }}
 		private Matrix4x4 _cameraFacingMatrix = Matrix4x4.identity;
 		
 		public bool isSelected = false;
 
 		private static Mesh _mesh;
-		private static Mesh mesh
+		private static Mesh Mesh
 		{
 			get
 			{
@@ -57,12 +59,10 @@ namespace GILES
 
 		public bool CanEditType(Type t)
 		{
-			pb_GizmoAttribute attrib = this.GetType().GetCustomAttributes(true).FirstOrDefault(x => x is pb_GizmoAttribute) as pb_GizmoAttribute;
+            if (this.GetType().GetCustomAttributes(true).FirstOrDefault(x => x is pb_GizmoAttribute) is pb_GizmoAttribute attrib)
+                return attrib.CanEditType(t);
 
-			if(attrib != null)
-				return attrib.CanEditType(t);
-
-			return false;
+            return false;
 		}
 
 		public virtual void Update()
@@ -71,7 +71,7 @@ namespace GILES
 			//_cameraFacingMatrix.SetTRS(trs.position, Quaternion.LookRotation(cam.forward, Vector3.up), Vector3.one * pb_HandleUtility.GetHandleSize(trs.position) * 100f );
 			_cameraFacingMatrix.SetTRS(trs.position, Quaternion.LookRotation(cam.forward, Vector3.up), Vector3.one );
 
-			Graphics.DrawMesh(mesh, _cameraFacingMatrix, icon, 0);
+			Graphics.DrawMesh(Mesh, _cameraFacingMatrix, icon, 0);
 		}
 	}
 }

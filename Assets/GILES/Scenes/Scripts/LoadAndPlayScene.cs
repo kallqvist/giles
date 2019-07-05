@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using GILES.Interface;
 
 namespace GILES.Example
@@ -18,8 +17,8 @@ namespace GILES.Example
 		{
 			pb_FileDialog dlog = GameObject.Instantiate(dialogPrefab);
 			dlog.SetDirectory(System.IO.Directory.GetCurrentDirectory());
-			dlog.isFileBrowser = true;
-			dlog.filePattern = "*.json";
+			dlog.IsFileBrowser = true;
+			dlog.FilePattern = "*.json";
 			dlog.AddOnSaveListener(OnOpen);
 
 			pb_ModalWindow.SetContent(dlog.gameObject);

@@ -3,13 +3,16 @@ using UnityEngine.UI;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Static helper functions for common GUI operations.
 	 */
-	public static class pb_GUIUtility
+#pragma warning disable IDE1006
+    public static class pb_GUIUtility
 	{
-		/// The default color to use as the background for panels.
-		public static readonly Color PANEL_COLOR = new Color(.27f, .27f, .27f, .5f);
+#pragma warning restore IDE1006
+
+        /// The default color to use as the background for panels.
+        public static readonly Color PANEL_COLOR = new Color(.27f, .27f, .27f, .5f);
 
 		/// The default color to use as the background for items in panels.
 		public static readonly Color ITEM_BACKGROUND_COLOR = new Color(.15f, .15f, .15f, 1f);
@@ -58,10 +61,12 @@ namespace GILES.Interface
 		 */
 		public static GameObject CreateLabeledVerticalPanel(string label)
 		{
-			GameObject go = new GameObject();
-			go.name = label;
+            GameObject go = new GameObject
+            {
+                name = label
+            };
 
-			go.AddComponent<Image>().color = PANEL_COLOR;
+            go.AddComponent<Image>().color = PANEL_COLOR;
 
 			AddVerticalLayoutGroup(go);
 
@@ -90,9 +95,11 @@ namespace GILES.Interface
 		 */
 		public static GameObject CreateLabel(string text)
 		{
-			GameObject go = new GameObject();
-			go.name = "Label Field";
-			Text field = go.AddComponent<Text>();
+            GameObject go = new GameObject
+            {
+                name = "Label Field"
+            };
+            Text field = go.AddComponent<Text>();
 			string temp = text.Replace("UnityEngine.","");
 			field.text = temp; //This removes the UnityEngine. Prefix from the Inspector.
 			//field.text = text;

@@ -9,9 +9,12 @@ namespace GILES
 	 * Singleton responsible for enabling gizmo renderers when working in the level editor.
 	 */
 	[System.Serializable]
-	public class pb_GizmoManager : pb_MonoBehaviourSingleton<pb_GizmoManager>
+#pragma warning disable IDE1006
+    public class pb_GizmoManager : pb_MonoBehaviourSingleton<pb_GizmoManager>
 	{
-		readonly static System.Type[] BuiltinGizmos = new System.Type[]
+#pragma warning restore IDE1006
+
+        readonly static System.Type[] BuiltinGizmos = new System.Type[]
 		{
 			typeof(pb_Gizmo_Light),
 			typeof(pb_Gizmo_Camera)
@@ -25,11 +28,9 @@ namespace GILES
 
 			foreach(Type t in BuiltinGizmos)
 			{
-                pb_GizmoAttribute attrib = t.GetCustomAttributes(true).FirstOrDefault(x => x is pb_GizmoAttribute) as pb_GizmoAttribute;
-
-                if (attrib != null)
-					gizmoLookup.Add(attrib.type, t);
-			}
+                if (t.GetCustomAttributes(true).FirstOrDefault(x => x is pb_GizmoAttribute) is pb_GizmoAttribute attrib)
+                    gizmoLookup.Add(attrib.type, t);
+            }
 		}
 
 		/**
@@ -89,7 +90,7 @@ namespace GILES
 			{
 				pb_Gizmo gizmo = AssociateGizmos(go);
 
-				if(gizmo != null && pb_Selection.gameObjects != null && pb_Selection.gameObjects.Contains(go))
+				if(gizmo != null && pb_Selection.GameObjects != null && pb_Selection.GameObjects.Contains(go))
 				{
 					gizmo.isSelected = true;
 				}
@@ -124,11 +125,9 @@ namespace GILES
 			if(gizmoLookup == null)
 				RebuildGizmoLookup();
 
-			Type result = null;
+            gizmoLookup.TryGetValue(type, out Type result);
 
-			gizmoLookup.TryGetValue(type, out result);
-
-			return result;
+            return result;
 		}
 	}
 }

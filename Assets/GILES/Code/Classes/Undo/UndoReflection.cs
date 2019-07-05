@@ -26,11 +26,12 @@ namespace GILES
 
 		public Hashtable RecordState()
 		{
-			Hashtable hash = new Hashtable();
+            Hashtable hash = new Hashtable
+            {
+                { "value", pb_Reflection.GetValue<object>(target, memberName) }
+            };
 
-			hash.Add("value", pb_Reflection.GetValue<object>(target, memberName));
-
-			return hash;
+            return hash;
 		}
 
 		public void ApplyState(Hashtable hash)

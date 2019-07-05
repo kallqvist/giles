@@ -8,10 +8,13 @@ namespace GILES
 	 * \sa pb_Gizmo pb_GizmoManager
 	 */
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-	public class pb_GizmoAttribute : Attribute
+#pragma warning disable IDE1006
+    public class pb_GizmoAttribute : Attribute
 	{
-		/// The type for which this class is providing an editor.
-		public Type type;
+#pragma warning restore IDE1006
+
+        /// The type for which this class is providing an editor.
+        public Type type;
 
 		/**
 		 * Attribute constructor accepts a type argument for the inspected type.

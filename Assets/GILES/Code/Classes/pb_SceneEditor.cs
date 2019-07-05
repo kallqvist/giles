@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
@@ -10,17 +9,20 @@ namespace GILES
 	 * To activate the editor, set it as the current editor in the pb_InputManager
 	 * class.
 	 */
-	[CreateAssetMenuAttribute(menuName = "Scene Editor", fileName = "RT Scene Editor", order = pb_Config.ASSET_MENU_ORDER)]
+	[CreateAssetMenu(menuName = "Scene Editor", fileName = "RT Scene Editor", order = pb_Config.ASSET_MENU_ORDER)]
 	[System.Serializable]
-	public abstract class pb_SceneEditor : ScriptableObject
+#pragma warning disable IDE1006
+    public abstract class pb_SceneEditor : ScriptableObject
 	{
+#pragma warning restore IDE1006
+
 #region Internal
 
-		readonly KeyCode SHORTCUT_TRANSLATE = KeyCode.W;
+        readonly KeyCode SHORTCUT_TRANSLATE = KeyCode.W;
 		readonly KeyCode SHORTCUT_ROTATE = KeyCode.E;
 		readonly KeyCode SHORTCUT_SCALE = KeyCode.R;
 
-		internal pb_SelectionHandle handle { get { return pb_SelectionHandle.instance; } }
+		internal pb_SelectionHandle Handle { get { return pb_SelectionHandle.Instance; } }
 
 		// If the mouse down occurred and AcceptMouseInput() returned false, don't send any further mouse events.
 		private bool ignoreMouse = false;
@@ -36,9 +38,9 @@ namespace GILES
 		 */
 		internal void Enable()
 		{
-			handle.OnHandleBegin += OnHandleBegin;
-			handle.OnHandleMove += OnHandleMove;
-			handle.OnHandleFinish += OnHandleFinish;
+			Handle.OnHandleBegin += OnHandleBegin;
+			Handle.OnHandleMove += OnHandleMove;
+			Handle.OnHandleFinish += OnHandleFinish;
 			pb_Selection.AddOnSelectionChangeListener( OnSelectionChange );
 
 			pb_InputManager.AddMouseInUseDelegate(
@@ -54,9 +56,9 @@ namespace GILES
 		 */
 		internal void Disable()
 		{
-			handle.OnHandleBegin -= OnHandleBegin;
-			handle.OnHandleMove -= OnHandleMove;
-			handle.SetIsHidden(true);
+			Handle.OnHandleBegin -= OnHandleBegin;
+			Handle.OnHandleMove -= OnHandleMove;
+			Handle.SetIsHidden(true);
 			OnDisabled();
 		}
 
@@ -95,11 +97,11 @@ namespace GILES
 		public void OnKeyDownBase()
 		{
 			if( Input.GetKey(SHORTCUT_TRANSLATE) )
-				handle.SetTool(Tool.Position);
+				Handle.SetTool(Tool.Position);
 			else if( Input.GetKey(SHORTCUT_ROTATE) )
-				handle.SetTool(Tool.Rotate);
+				Handle.SetTool(Tool.Rotate);
 			else if( Input.GetKey(SHORTCUT_SCALE) )
-				handle.SetTool(Tool.Scale);
+				Handle.SetTool(Tool.Scale);
 			else if( Input.GetKey(KeyCode.F))
 				OnFrameSelection();
 

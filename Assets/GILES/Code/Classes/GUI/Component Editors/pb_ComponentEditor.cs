@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Base class for Component editors.  This implements a generic component editor when 
 	 * no suitable override is found.
 	 * 
@@ -18,10 +16,13 @@ namespace GILES.Interface
 	 * for an example.  If using pb_TypeInspector with reflection, this is not necesssary as it is 
 	 * done automatically.
 	 */
-	public class pb_ComponentEditor : MonoBehaviour
+#pragma warning disable IDE1006
+    public class pb_ComponentEditor : MonoBehaviour
 	{
-		/// The UnityEngine.Component being edited.
-		protected Component target;
+#pragma warning restore IDE1006
+
+        /// The UnityEngine.Component being edited.
+        protected Component target;
 
 		public static readonly HashSet<string> ignoreProperties = new HashSet<string>()
 		{

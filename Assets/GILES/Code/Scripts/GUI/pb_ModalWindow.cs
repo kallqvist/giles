@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Linq;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * A singleton window instance that takes control of the screen when initialized.
 	 */
-	public class pb_ModalWindow : pb_MonoBehaviourSingleton<pb_ModalWindow>
-	{	
-		/**
+#pragma warning disable IDE1006
+    public class pb_ModalWindow : pb_MonoBehaviourSingleton<pb_ModalWindow>
+	{
+#pragma warning restore IDE1006
+        /**
 		 *	Place content GUI items as content's children.
 		 */
-		public GameObject contents;
+        public GameObject contents;
 
 		/**
 		 *	The title shown in the header bar.
@@ -26,22 +25,22 @@ namespace GILES.Interface
 		 */
 		public static void SetTitle(string title)
 		{
-			instance.windowTitle.text = title;
+			Instance.windowTitle.text = title;
 		}
 
 		public static void Show()
 		{
-			foreach(Transform t in instance.transform)
+			foreach(Transform t in Instance.transform)
 			{
 				t.gameObject.SetActive(true);
 			}
 
-			instance.transform.SetAsLastSibling();
+			Instance.transform.SetAsLastSibling();
 		}
 
 		public static bool IsVisible()
 		{
-			foreach(Transform t in instance.transform)
+			foreach(Transform t in Instance.transform)
 				if(t.gameObject.activeSelf)
 					return true;
 			return false;
@@ -49,7 +48,7 @@ namespace GILES.Interface
 
 		public static void Hide()
 		{
-			foreach(Transform t in instance.transform)
+			foreach(Transform t in Instance.transform)
 				t.gameObject.SetActive(false);
 		}
 
@@ -58,10 +57,10 @@ namespace GILES.Interface
 		 */
 		public static void SetContent(GameObject prefab)
 		{
-			foreach(Transform t in instance.contents.transform)
+			foreach(Transform t in Instance.contents.transform)
 				pb_ObjectUtility.Destroy(t.gameObject);
 
-			prefab.transform.SetParent(instance.contents.transform, false);
+			prefab.transform.SetParent(Instance.contents.transform, false);
 		}
 	}
 }

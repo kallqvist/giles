@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace GILES.Interface
@@ -11,9 +9,12 @@ namespace GILES.Interface
 	 * This should not have a prefab in the Resources/Required/GUI/TypeInspector folder!
 	 */
 	[pb_TypeInspector(typeof(object))]
-	public class pb_ObjectInspector : pb_TypeInspector
+#pragma warning disable IDE1006
+    public class pb_ObjectInspector : pb_TypeInspector
 	{
-		object value;
+#pragma warning disable IDE1006
+
+        object value;
 		
 		//private static readonly RectOffset RectOffset_Zero = new RectOffset(0,0,0,0);
 		private const int VERTICAL_LAYOUT_SPACING = 0;
@@ -42,7 +43,7 @@ namespace GILES.Interface
 
 		void BuildInspectorTree()
 		{
-			if(declaringType == null)
+			if(DeclaringType == null)
 			{
 				Debug.LogWarning("Inspector is targeting a null or primitive type with no available pb_TypeInspector override, or target is null and using delegates in the parent inspector.");
 				return;
@@ -55,12 +56,12 @@ namespace GILES.Interface
 			subpanel.GetComponent<VerticalLayoutGroup>().padding = new RectOffset(2,2,2,2);
 			subpanel.transform.SetParent(transform);		
 
-			foreach(PropertyInfo prop in pb_Reflection.GetSerializableProperties(declaringType, BindingFlags.Public | BindingFlags.Instance))
+			foreach(PropertyInfo prop in pb_Reflection.GetSerializableProperties(DeclaringType, BindingFlags.Public | BindingFlags.Instance))
 			{
 				pb_InspectorResolver.AddTypeInspector(value, subpanel.transform, prop, null).parent = this;
 			}
 
-			foreach(FieldInfo field in pb_Reflection.GetSerializableFields(declaringType, BindingFlags.Public | BindingFlags.Instance))
+			foreach(FieldInfo field in pb_Reflection.GetSerializableFields(DeclaringType, BindingFlags.Public | BindingFlags.Instance))
 			{
 				pb_InspectorResolver.AddTypeInspector(value, subpanel.transform, null, field).parent = this;
 			}

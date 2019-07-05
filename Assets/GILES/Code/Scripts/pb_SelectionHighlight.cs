@@ -9,9 +9,12 @@ namespace GILES
 	 */
 	[pb_JsonIgnore]
 	[pb_EditorComponent]
-	public class pb_SelectionHighlight : MonoBehaviour
+
+#pragma warning disable IDE1006
+    public class pb_SelectionHighlight : MonoBehaviour
 	{
-		enum HighlightType
+#pragma warning restore IDE1006
+        enum HighlightType
 		{
 			Wireframe,
 			Glow,
@@ -72,10 +75,12 @@ namespace GILES
 		 */
 		Mesh GenerateWireframe(Mesh mesh)
 		{
-			Mesh m = new Mesh();
-			m.vertices = mesh.vertices;
-			m.normals = mesh.normals;
-			int[] tris = new int[mesh.triangles.Length * 2];
+            Mesh m = new Mesh
+            {
+                vertices = mesh.vertices,
+                normals = mesh.normals
+            };
+            int[] tris = new int[mesh.triangles.Length * 2];
 			int[] mtris = mesh.triangles;
 
 			int c = 0;
@@ -128,10 +133,12 @@ namespace GILES
 				c[i].a = .5f;
 			}
 
-			Mesh m = new Mesh();
-			m.vertices = v.ToArray();
-			m.subMeshCount = 1;
-			m.SetIndices(t, MeshTopology.Lines, 0);
+            Mesh m = new Mesh
+            {
+                vertices = v.ToArray(),
+                subMeshCount = 1
+            };
+            m.SetIndices(t, MeshTopology.Lines, 0);
 
 			m.uv = u;
 			m.normals = v.ToArray();

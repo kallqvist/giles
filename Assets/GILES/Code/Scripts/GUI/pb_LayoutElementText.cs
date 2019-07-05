@@ -1,15 +1,15 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿using UnityEngine.UI;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * A LayoutElement that calculates width based on a text component's width.
 	 */
-	public class pb_LayoutElementText : LayoutElement
+#pragma warning disable IDE1006
+    public class pb_LayoutElementText : LayoutElement
 	{
-		public bool expandWidth = true, expandHeight = false;
+#pragma warning restore IDE1006
+        public bool expandWidth = true, expandHeight = false;
 		public Text text;
 		public float paddingWidth = 4f, paddingHeight = 4f;
 

@@ -1,16 +1,17 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿using UnityEngine.UI;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * Component attached to pb_TypeInspectors to guarantee a uniform label width
 	 * for int, enum, toggle, float, and string fields.
 	 */
-	public class pb_InspectorLabelLayoutElement : LayoutElement
+#pragma warning disable IDE1006
+    public class pb_InspectorLabelLayoutElement : LayoutElement
 	{
-		const int LABEL_WIDTH = 64;
+#pragma warning restore IDE1006
+
+        const int LABEL_WIDTH = 64;
 
 		public override float minWidth
 		{

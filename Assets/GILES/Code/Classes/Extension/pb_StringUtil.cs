@@ -1,20 +1,20 @@
-using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Globalization;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Helper methods for working with strings.
 	 */
-	public static class pb_StringUtil
+#pragma warning disable IDE1006
+    public static class pb_StringUtil
 	{
-		/**
+#pragma warning restore IDE1006
+
+        /**
 		 * Convert a collection of items to a string.
 		 */
-		public static string ToStringF(this IEnumerable val)
+        public static string ToStringF(this IEnumerable val)
 		{
 			return val.ToStringF('\n');
 		}

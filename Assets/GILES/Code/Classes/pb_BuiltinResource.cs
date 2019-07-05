@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace GILES
 {
-	/**
+    /**
 	 *	Load resources that are in the Required folder.  Resources are loaded by name,
 	 *	which are prefixed with their asset type (ex, Material is  mat_MyMaterial,
 	 *	Texture2D is tex_MyTexture, etc).
@@ -14,9 +13,12 @@ namespace GILES
 	 *	requested.  However, if the asset is destroyed (in the event that you know it 
 	 *	won't be used again, for example), that is accounted for.
 	 */
-	public static class pb_BuiltinResource
+#pragma warning disable IDE1006
+    public static class pb_BuiltinResource
 	{
-		const string REQUIRED_PATH = "Required/";
+#pragma warning restore IDE1006
+
+        const string REQUIRED_PATH = "Required/";
 
 		/// A generic unlit vertex color enabled shader.  
 		public const string mat_UnlitVertexColor 		= "Material/UnlitVertexColor";
@@ -84,17 +86,15 @@ namespace GILES
 		/**
 		 *	Load a required resource with path (relative to Resources/Required folder).
 		 */
-		public static T LoadResource<T>(string path) where T : UnityEngine.Object
+		public static T LoadResource<T>(string path) where T : Object
 		{
-			Object val = null;
+            if (pool.TryGetValue(path, out Object val))
+            {
+                if (val != null && val is T)
+                    return (T)val;
+            }
 
-			if(pool.TryGetValue(path, out val))
-			{
-				if( val != null && val is T )
-					return (T) val;
-			}
-
-			T obj = Resources.Load<T>(REQUIRED_PATH + path);
+            T obj = Resources.Load<T>(REQUIRED_PATH + path);
 
 			if(obj == null)
 			{
@@ -114,17 +114,15 @@ namespace GILES
 		 *	Fetch a required resource with path (relative to Resources/Required folder).  Does not instantiate object (use for
 		 *	Texture2D for example).
 		 */
-		public static T GetResource<T>(string path) where T : UnityEngine.Object
+		public static T GetResource<T>(string path) where T : Object
 		{
-			Object val = null;
+            if (pool.TryGetValue(path, out Object val))
+            {
+                if (val != null && val is T)
+                    return (T)val;
+            }
 
-			if(pool.TryGetValue(path, out val))
-			{
-				if( val != null && val is T )
-					return (T) val;
-			}
-
-			T obj = Resources.Load<T>(REQUIRED_PATH + path);
+            T obj = Resources.Load<T>(REQUIRED_PATH + path);
 
 			if(obj == null)
 			{

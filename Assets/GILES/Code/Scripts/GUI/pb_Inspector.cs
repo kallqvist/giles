@@ -1,22 +1,19 @@
-using System;
 using UnityEngine;
-using System.Reflection;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Linq;
 using System.Collections.Generic;
 using GILES.Serialization;
 
 namespace GILES.Interface
 {
-	/**
+    /**
 	 * A generic gameobject inspector, with support for editing basic types.
 	 */
-	public class pb_Inspector : MonoBehaviour
+#pragma warning disable IDE1006
+    public class pb_Inspector : MonoBehaviour
 	{
-		/// A reference to the inspector GUI scroll panel.  All new UI elements will be 
-		/// instantiated as children of this GameObject.
-		public GameObject inspectorScrollPanel;
+#pragma warning restore IDE1006
+        /// A reference to the inspector GUI scroll panel.  All new UI elements will be 
+        /// instantiated as children of this GameObject.
+        public GameObject inspectorScrollPanel;
 
 		/// The currently inspected gameobject.
 		private GameObject currentSelection;
@@ -64,10 +61,10 @@ namespace GILES.Interface
 		void OnSelectionChange(IEnumerable<GameObject> selection)
 		{
 			// build inspector queue
-			if(currentSelection != pb_Selection.activeGameObject)
+			if(currentSelection != pb_Selection.ActiveGameObject)
 			{
-				RebuildInspector( pb_Selection.activeGameObject );
-				currentSelection = pb_Selection.activeGameObject;
+				RebuildInspector( pb_Selection.ActiveGameObject );
+				currentSelection = pb_Selection.ActiveGameObject;
 			}
 		}
 

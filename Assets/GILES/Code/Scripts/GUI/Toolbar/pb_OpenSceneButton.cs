@@ -1,19 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
-#if !UNITY_5_2
-using UnityEngine.SceneManagement;
-#endif
+﻿using UnityEngine.SceneManagement;
 
 namespace GILES
 {
-	/**
+    /**
 	 * Open a Unity scene.
 	 */
-	public class pb_OpenSceneButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_OpenSceneButton : pb_ToolbarButton
 	{
-		public string scene;
+#pragma warning restore IDE1006
 
-		public override string tooltip { get { return "Open " + scene; } }
+        public string scene;
+
+		public override string Tooltip { get { return "Open " + scene; } }
 
 		public void OpenScene()
 		{

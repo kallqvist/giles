@@ -1,8 +1,5 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using GILES.Serialization;
 
@@ -14,11 +11,14 @@ namespace GILES
 	 */
 	[pb_JsonIgnore]
 	[RequireComponent(typeof(pb_MetaDataComponent))]
-	public class pb_Scene : pb_MonoBehaviourSingleton<pb_Scene>
-	{	
+#pragma warning disable IDE1006
+    public class pb_Scene : pb_MonoBehaviourSingleton<pb_Scene>
+	{
+#pragma warning restore IDE1006
+
 #region Initialization & Singleton
 
-		protected override void Awake()
+        protected override void Awake()
 		{
 			base.Awake();
 			this.name = "Level Editor SceneGraph Root";
@@ -40,27 +40,27 @@ namespace GILES
 		 * Event raised when an object is instantiated in the scene.  Passes the new 
 		 * object as a parameter.
 		 */
-		public event Callback<GameObject> onObjectInstantiated;
+		public event Callback<GameObject> OnObjectInstantiated;
 
 		/**
 		 * Event raised when a level is loaded.
 		 */
-		public event Callback onLevelLoaded;
+		public event Callback OnLevelLoaded;
 
 		/**
 		 * Event raised when a level cleared.
 		 */
-		public event Callback onLevelCleared;
+		public event Callback OnLevelCleared;
 
 		/**
 		 * Notification when a new object is instantiated in the scene.
 		 */
 		public static void AddOnObjectInstantiatedListener(Callback<GameObject> listener)
 		{
-			if(instance.onObjectInstantiated == null)
-				instance.onObjectInstantiated = listener;
+			if(Instance.OnObjectInstantiated == null)
+				Instance.OnObjectInstantiated = listener;
 			else
-				instance.onObjectInstantiated += listener;
+				Instance.OnObjectInstantiated += listener;
 		}
 
 		/**
@@ -68,10 +68,10 @@ namespace GILES
 		 */
 		public static void AddOnLevelLoadedListener(Callback listener)
 		{
-			if(instance.onLevelLoaded == null)
-				instance.onLevelLoaded = listener;
+			if(Instance.OnLevelLoaded == null)
+				Instance.OnLevelLoaded = listener;
 			else
-				instance.onLevelLoaded += listener;
+				Instance.OnLevelLoaded += listener;
 		}
 
 		/**
@@ -79,10 +79,10 @@ namespace GILES
 		 */
 		public static void AddOnLevelClearedListener(Callback listener)
 		{
-			if(instance.onLevelCleared == null)
-				instance.onLevelCleared = listener;
+			if(Instance.OnLevelCleared == null)
+				Instance.OnLevelCleared = listener;
 			else
-				instance.onLevelCleared += listener;
+				Instance.OnLevelCleared += listener;
 		}
 
 #endregion
@@ -99,14 +99,13 @@ namespace GILES
 			if(original.transform.parent != null)
 				go.transform.SetParent(original.transform.parent);
 			else
-				go.transform.parent = instance.transform;
+				go.transform.parent = Instance.transform;
 
 			pb_EditorComponentAttribute.StripEditorComponents(go);
 
-			if( instance.onObjectInstantiated != null )
-				instance.onObjectInstantiated(go);
+            Instance.OnObjectInstantiated?.Invoke(go);
 
-			return go;
+            return go;
 		}
 
 		/**
@@ -121,14 +120,13 @@ namespace GILES
 			if(original.transform.parent != null)
 				go.transform.SetParent(original.transform.parent);
 			else
-				go.transform.parent = instance.transform;
+				go.transform.parent = Instance.transform;
 
 			pb_EditorComponentAttribute.StripEditorComponents(go);
 
-			if( instance.onObjectInstantiated != null )
-				instance.onObjectInstantiated(go);
+            Instance.OnObjectInstantiated?.Invoke(go);
 
-			return go;
+            return go;
 		}
 
 		/**
@@ -136,7 +134,7 @@ namespace GILES
 		 */
 		public static string SaveLevel()
 		{
-			pb_SceneNode rootNode = new pb_SceneNode(instance.gameObject);
+			pb_SceneNode rootNode = new pb_SceneNode(Instance.gameObject);
 			string scenegraph = JsonConvert.SerializeObject(rootNode,
 															Formatting.Indented,
 															pb_Serialization.ConverterSettings);
@@ -149,10 +147,10 @@ namespace GILES
 		 */
 		public static void LoadLevel(string levelJson)
 		{
-			if(pb_Scene.nullableInstance != null)
-				pb_Scene.instance.Clear();
+			if(pb_Scene.NullableInstance != null)
+				pb_Scene.Instance.Clear();
 
-			pb_Scene scene = pb_Scene.instance;
+			pb_Scene scene = pb_Scene.Instance;
 
 			pb_SceneNode root_node = (pb_SceneNode) JsonConvert.DeserializeObject<pb_SceneNode>(levelJson, pb_Serialization.ConverterSettings);
 
@@ -169,9 +167,8 @@ namespace GILES
 
 			pb_ObjectUtility.Destroy(root);
 
-			if( instance.onLevelLoaded != null )
-				instance.onLevelLoaded();
-		}
+            Instance.OnLevelLoaded?.Invoke();
+        }
 
 		/**
 		 * Destroy all children in the scene.
@@ -184,9 +181,8 @@ namespace GILES
 			foreach(Transform t in transform)
 				pb_ObjectUtility.Destroy(t.gameObject);
 
-			if( onLevelCleared != null )
-				onLevelCleared();
-		}
+            OnLevelCleared?.Invoke();
+        }
 
 		/**
 		 * Recursively search a transform for children and return all of 'em as a list.
@@ -194,7 +190,7 @@ namespace GILES
 		 */
 		public static List<GameObject> Children()
 		{
-			return instance.GetChildren(instance.transform);
+			return Instance.GetChildren(Instance.transform);
 		}
 
 		/**

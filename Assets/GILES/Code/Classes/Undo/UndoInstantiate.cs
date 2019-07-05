@@ -21,9 +21,11 @@ namespace GILES
 
 		public Hashtable RecordState()
 		{
-			Hashtable hash = new Hashtable();
-			hash.Add(gameObject, initialized ? gameObject.activeSelf : false);
-			initialized = true;
+            Hashtable hash = new Hashtable
+            {
+                { gameObject, initialized ? gameObject.activeSelf : false }
+            };
+            initialized = true;
 			return hash;
 		}
 

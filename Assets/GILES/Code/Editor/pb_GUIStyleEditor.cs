@@ -1,6 +1,3 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using UnityEditor;
 using System.Collections.Generic;
 using GILES.Interface;
@@ -8,9 +5,11 @@ using GILES.Interface;
 namespace GILES.UnityEditor
 {
 	[CustomEditor(typeof(pb_GUIStyle))]
-	public class pb_GUIStyleEditor : Editor
+#pragma warning disable IDE1006
+    public class pb_GUIStyleEditor : Editor
 	{
-		HashSet<string> ignoreProperties = new HashSet<string>()
+#pragma warning restore IDE1006
+        HashSet<string> ignoreProperties = new HashSet<string>()
 		{
 			"m_PrefabParentObject",
 			"m_PrefabInternal",

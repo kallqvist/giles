@@ -1,18 +1,20 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GILES
 {
 
-	/**
+    /**
 	 * Singleton resource manager for efficiently finding prefabs and objects loaded in either AssetBundles or Resources.
 	 */
-	public class pb_ResourceManager : pb_ScriptableObjectSingleton<pb_ResourceManager>
+#pragma warning disable IDE1006
+    public class pb_ResourceManager : pb_ScriptableObjectSingleton<pb_ResourceManager>
 	{
-		/// A lookup table of available prefabs in the resources folder.
-		Dictionary<string, GameObject> lookup = new Dictionary<string, GameObject>();
+#pragma warning restore IDE1006
+
+        /// A lookup table of available prefabs in the resources folder.
+        Dictionary<string, GameObject> lookup = new Dictionary<string, GameObject>();
 
 		/**
 		 * Load all assets listed in pb_Config.Resource_Folder_Paths and populate a lookup table, then
@@ -37,7 +39,7 @@ namespace GILES
 #if ASSET_LOADER_DEBUG
 					sb.AppendLine(string.Format("{0,-50} : {1}", prefabs[i].name, prefabs[i].GetComponent<pb_MetaDataComponent>().metadata.fileId) );
 #endif
-					lookup.Add(prefabs[i].GetComponent<pb_MetaDataComponent>().metadata.fileId, prefabs[i]);
+					lookup.Add(prefabs[i].GetComponent<pb_MetaDataComponent>().metadata.FileId, prefabs[i]);
 				}
 
 #if ASSET_LOADER_DEBUG
@@ -53,12 +55,10 @@ namespace GILES
 			if( string.IsNullOrEmpty(fileId) )
 				return null;
 
-			GameObject obj = null;
+            if (Instance.lookup.TryGetValue(fileId, out GameObject obj))
+                return obj;
 
-			if(pb_ResourceManager.instance.lookup.TryGetValue(fileId, out obj))
-				return obj;
-
-			return null;
+            return null;
 		}
 
 		/**
@@ -67,30 +67,30 @@ namespace GILES
 		 */
 		public static GameObject LoadPrefabWithMetadata(pb_MetaData metadata)
 		{
-			if( metadata.assetType == AssetType.Instance )
+			if( metadata.AssetType == AssetType.Instance )
 			{
 				Debug.LogWarning("Attempting to load instance asset through resource manager.");
 				return null;
 			}
 
-			switch(metadata.assetType)
+			switch(metadata.AssetType)
 			{
 				case AssetType.Resource:
 				{
-					if(instance.lookup.ContainsKey(metadata.fileId))
+					if(Instance.lookup.ContainsKey(metadata.FileId))
 					{
-						return instance.lookup[metadata.fileId];
+						return Instance.lookup[metadata.FileId];
 					}
 					else
 					{
-						Debug.LogWarning("Resource manager could not find \"" + metadata.fileId + "\" in loaded resources.");
+						Debug.LogWarning("Resource manager could not find \"" + metadata.FileId + "\" in loaded resources.");
 						return null;
 					}
 				}
 
 				case AssetType.Bundle:
 				{
-					return pb_AssetBundles.LoadAsset<GameObject>(metadata.assetBundlePath);
+					return pb_AssetBundles.LoadAsset<GameObject>(metadata.AssetBundlePath);
 				}
 
 				default:

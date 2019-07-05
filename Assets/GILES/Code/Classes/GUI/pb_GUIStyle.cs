@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 namespace GILES.Interface
 {
@@ -8,10 +7,13 @@ namespace GILES.Interface
 	 * Defines a set of colors and fonts / sizes.
 	 */
 	[System.Serializable]
-	[CreateAssetMenuAttribute(menuName = "Level Editor GUI Style", fileName = "RT GUI Style", order = pb_Config.ASSET_MENU_ORDER)]
-	public class pb_GUIStyle : ScriptableObject
+	[CreateAssetMenu(menuName = "Level Editor GUI Style", fileName = "RT GUI Style", order = pb_Config.ASSET_MENU_ORDER)]
+#pragma warning disable IDE1006
+    public class pb_GUIStyle : ScriptableObject
 	{
-		[SerializeField] private Font _font;
+#pragma warning restore IDE1006
+
+        [SerializeField] private Font _font;
 
 		/// Background image tint.
 		public Color color = Color.white;
@@ -35,11 +37,11 @@ namespace GILES.Interface
 		public Sprite sprite;
 
 		/// Font to use.  If null the default Arial is used.
-		public Font font
+		public Font Font
 		{
 			get
 			{
-				return _font == null ? (Font) Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") : _font;
+				return _font ?? (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
 			}
 
 			set { _font = value; }
@@ -64,7 +66,7 @@ namespace GILES.Interface
 			style.color				= color;
 			style.image 			= image;
 			style.sprite 			= sprite;
-			style.font				= font;
+			style.Font				= font;
 			
 			if(normalColor != null) 	style.normalColor		= (Color) normalColor;
 			if(highlightedColor != null) style.highlightedColor	= (Color) highlightedColor;
@@ -78,7 +80,7 @@ namespace GILES.Interface
 		public virtual void Apply(Graphic element)
 		{
 			element.color = element is Text ? fontColor : color;
-			pb_Reflection.SetValue(element, "font", font);
+			pb_Reflection.SetValue(element, "font", Font);
 			pb_Reflection.SetValue(element, "image", image);
 			pb_Reflection.SetValue(element, "sprite", sprite);
 		}

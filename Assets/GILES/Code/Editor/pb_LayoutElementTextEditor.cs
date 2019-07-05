@@ -10,9 +10,11 @@ namespace GILES.UnityEditor
 	 * \notes Despite a valiant effort, AVFoundation remains the undisputed king of super-long class names.
 	 */
 	[CanEditMultipleObjects, CustomEditor(typeof(pb_LayoutElementText))]
-	public class pb_LayoutElementTextEditor : Editor
+#pragma warning disable IDE1006
+    public class pb_LayoutElementTextEditor : Editor
 	{
-		SerializedProperty textComponent;
+#pragma warning restore IDE1006
+        SerializedProperty textComponent;
 		SerializedProperty expandWidth, expandHeight;
 		SerializedProperty paddingWidth, paddingHeight;
 		SerializedProperty flexibleWidth, flexibleHeight;

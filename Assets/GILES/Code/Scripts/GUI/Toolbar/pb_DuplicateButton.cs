@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 
 namespace GILES
 {
-	public class pb_DuplicateButton : pb_ToolbarButton
+#pragma warning disable IDE1006
+    public class pb_DuplicateButton : pb_ToolbarButton
 	{
-		protected override void Start()
+#pragma warning restore IDE1006
+
+        protected override void Start()
 		{
 			base.Start();
 
@@ -14,14 +16,14 @@ namespace GILES
 			OnSelectionChanged(null);
 		}
 
-		public override string tooltip { get { return "Duplicate Selection"; } }
+		public override string Tooltip { get { return "Duplicate Selection"; } }
 
 		public void DoDuplicate()
 		{
 			List<GameObject> newObjects = new List<GameObject>();
 			List<IUndo> undo = new List<IUndo>() { new UndoSelection() };
 
-			foreach(GameObject go in pb_Selection.gameObjects)
+			foreach(GameObject go in pb_Selection.GameObjects)
 			{
 				GameObject inst = (GameObject) pb_Scene.Instantiate(go);
 				newObjects.Add(inst);
@@ -35,7 +37,7 @@ namespace GILES
 
 		private void OnSelectionChanged(IEnumerable<GameObject> go)
 		{
-			interactable = pb_Selection.activeGameObject != null;
+			Interactable = pb_Selection.ActiveGameObject != null;
 		}
 	}
 }

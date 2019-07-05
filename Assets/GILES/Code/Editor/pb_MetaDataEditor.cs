@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.Collections.Generic;
-using GILES;
 using GILES.Serialization;
 
 namespace GILES.UnityEditor
@@ -11,10 +9,12 @@ namespace GILES.UnityEditor
 	 *	Editor for pb_MetaDataComponent.
 	 */
 	[CustomEditor(typeof(pb_MetaDataComponent))]
-	public class pb_MetaDataEditor : Editor
+#pragma warning disable IDE1006
+    public class pb_MetaDataEditor : Editor
 	{
-		// Store reference to the component target.
-		pb_MetaDataComponent data;
+#pragma warning restore IDE1006
+        // Store reference to the component target.
+        pb_MetaDataComponent data;
 
 		// The component diff as stored by pb_MetaData.
 		pb_ComponentDiff diff;
@@ -33,9 +33,9 @@ namespace GILES.UnityEditor
 			serializedObject.Update();
 
 			// Non-user-editable data.
-			GUILayout.Label("Asset Type: " + data.metadata.assetType);
-			GUILayout.Label("File ID: " + data.metadata.fileId);
-			GUILayout.Label("Asset Path: " + data.metadata.assetBundlePath);
+			GUILayout.Label("Asset Type: " + data.metadata.AssetType);
+			GUILayout.Label("File ID: " + data.metadata.FileId);
+			GUILayout.Label("Asset Path: " + data.metadata.AssetBundlePath);
 
 			// Show the stored component diffs.
 			GUILayout.Label("Modified Values", EditorStyles.boldLabel);
