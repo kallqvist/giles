@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,9 +25,9 @@ namespace GILES
 
 			foreach(Type t in BuiltinGizmos)
 			{
-				 pb_GizmoAttribute attrib = (pb_GizmoAttribute) ((IEnumerable<Attribute>) t.GetCustomAttributes(true)).FirstOrDefault(x => x is pb_GizmoAttribute);
+                pb_GizmoAttribute attrib = t.GetCustomAttributes(true).FirstOrDefault(x => x is pb_GizmoAttribute) as pb_GizmoAttribute;
 
-				 if(attrib != null)
+                if (attrib != null)
 					gizmoLookup.Add(attrib.type, t);
 			}
 		}

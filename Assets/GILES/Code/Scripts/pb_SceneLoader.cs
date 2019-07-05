@@ -2,6 +2,7 @@
 using System.Collections;
 using GILES;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 namespace GILES.Example
 {
@@ -33,7 +34,15 @@ namespace GILES.Example
 		 */
         public static void LoadScene(string path)
 		{
-	 		string san = pb_FileUtility.SanitizePath(path, ".json");
+            string san = "";
+            if(!Path.HasExtension(path))
+            {
+                san = pb_FileUtility.SanitizePath(path, ".json");
+            }
+            else
+            {
+                san = pb_FileUtility.GetFullPath(path);
+            }
 
 			if(!pb_FileUtility.IsValidPath(san, ".json"))
 			{

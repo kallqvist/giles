@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace GILES
 {
@@ -47,9 +44,7 @@ namespace GILES
 
 		public static bool IsValidPath(string path, string extension)
 		{
-			return !string.IsNullOrEmpty(path) && 
-				System.Uri.IsWellFormedUriString(path, System.UriKind.RelativeOrAbsolute) && 
-				path.EndsWith(extension);
+			return !string.IsNullOrEmpty(path) && path.EndsWith(extension);
 		}
 
 		/**
@@ -58,9 +53,8 @@ namespace GILES
 		 */
 		public static string GetFullPath(string path)
 		{
-			string full = Path.GetFullPath(path);
-			return full;
-		}
+			return Path.GetFullPath(path);
+        }
 
 		/**
 		 * Return the path type (file or directory)
@@ -73,24 +67,9 @@ namespace GILES
 		/**
 		 * Replace backslashes with forward slashes, and make sure that path is the full path.
 		 */
-		public static string SanitizePath(string path, string extension = null)
+		public static string SanitizePath(string path, string extension = "")
 		{
-			string rep = GetFullPath(path);
-			// @todo On Windows this defaults to '\', but doesn't escape correctly.
-			// Path.DirectorySeparatorChar.ToString());
-			rep = Regex.Replace(rep, "(\\\\|\\\\\\\\){1,2}|(/)", "/");
-			// white space gets the escaped symbol
-			rep = Regex.Replace(rep, "\\s", "%20");
-
-			if(extension != null && !rep.EndsWith(extension))
-			{
-				if(!extension.StartsWith("."))
-					extension = "." + extension;
-
-				rep += extension;
-			}
-
-			return rep;
+            return GetFullPath(Path.Combine(path, extension));
 		}
 	}
 }

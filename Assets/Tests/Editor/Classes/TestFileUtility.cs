@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using UnityEditor;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace GILES.Test
 {
@@ -35,5 +33,3 @@ namespace GILES.Test
 		}
 	}
 }
-
-#endif

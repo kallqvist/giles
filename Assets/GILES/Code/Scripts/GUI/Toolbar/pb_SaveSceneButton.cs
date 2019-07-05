@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using GILES.Interface;
 
 namespace GILES
@@ -18,7 +17,7 @@ namespace GILES
 		 */
 		public void OpenSavePanel()
 		{
-			pb_FileDialog dlog = GameObject.Instantiate(dialogPrefab);
+			pb_FileDialog dlog = Instantiate(dialogPrefab);
 			dlog.SetDirectory(System.IO.Directory.GetCurrentDirectory());
 			dlog.isFileBrowser = true;
 			dlog.filePattern = "*.json";
@@ -36,12 +35,12 @@ namespace GILES
 
 		public void Save(string path)
 		{
-			string san = pb_FileUtility.SanitizePath(path);
+            string san = pb_FileUtility.SanitizePath(path);
 
-			if(!san.EndsWith(".json"))
-				san += ".json";
+            if (!san.EndsWith(".json"))
+                san += ".json";
 
-			if(!pb_FileUtility.IsValidPath(san, ".json"))
+            if (!pb_FileUtility.IsValidPath(san, ".json"))
 			{
 				Debug.LogWarning(san + " is not a valid path.");
 				return;
